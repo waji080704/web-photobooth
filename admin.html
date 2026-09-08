@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Buat QR Code</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f0f2f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
+        .btn-google { background: #4285F4; color: white; border: none; padding: 12px; width: 100%; border-radius: 5px; font-size: 16px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; }
+        .form-section { display: none; margin-top: 20px; text-align: left; }
+        input { width: 90%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; }
+        .btn-generate { background: #28a745; color: white; border: none; padding: 10px; width: 100%; border-radius: 5px; font-size: 16px; cursor: pointer; }
+        #qr-result { margin-top: 20px; display: none; }
+        #qr-result img { max-width: 100%; border-radius: 10px; border: 5px solid #eee; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Admin Login</h2>
+    <p id="login-text">Login dengan Google untuk membuat QR Code.</p>
+    <button class="btn-google" id="btn-login">🌐 Login with Google</button>
+
+    <div class="form-section" id="form-section">
+        <label>Masukkan Link Folder Google Drive:</label>
+        <input type="text" id="drive-link" placeholder="https://drive.google.com/drive/folders/1aBcD..." required>
+        <button class="btn-generate" id="btn-generate">Buat QR Code</button>
+    </div>
+
+    <div id="qr-result">
+        <h3>QR Code Berhasil Dibuat!</h3>
+        <img id="qr-image" src="" alt="QR Code">
+        <p style="color: red; font-size: 14px;">(Berlaku selama 7 Hari)</p>
+    </div>
+</div>
+
+<script>
+    // Simulasi Login Google
+    document.getElementById('btn-login').addEventListener('click', () => {
+        document.getElementById('btn-login').style.display = 'none';
+        document.getElementById('login-text').style.display = 'none';
+        document.getElementById('form-section').style.display = 'block';
+    });
+
+    // Logika Pembuatan QR Code
+    document.getElementById('btn-generate').addEventListener('click', () => {
+        const link = document.getElementById('drive-link').value;
+        
+        // Mengambil ID Folder dari Link panjang
+        const match = link.match(/folders\/([a-zA-Z0-9_-]+)/);
+        if (!match) {
+            alert("Link tidak valid! Pastikan link berisi /folders/ID...");
+            return;
+        }
+        
+        const folderId = match[1];
+        
+        // Menghitung Waktu Kadaluarsa (7 Hari dari sekarang dalam milidetik)
+        const expiryTime = Date.now() + (7 * 24 * 60 * 60 * 1000);
+
+        // URL Kamera kamu saat ini (Ganti dengan URL Hosting aslimu di Tahap 4 nanti)
+        // Saat ini pakai alamat IP Live Server VS Code untuk testing lokal
+        const baseUrl = window.location.href.replace("admin.html", "kamera.html");
+        
+        // Merakit URL akhir untuk dimasukkan ke QR Code
+        const finalUrl = `${baseUrl}?folderId=${folderId}&exp=${expiryTime}`;
+
+        // Menggunakan API Gratis untuk merubah URL menjadi Gambar QR
+        const qrApi = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(finalUrl)}`;
+        
+        document.getElementById('qr-image').src = qrApi;
+        document.getElementById('qr-result').style.display = 'block';
+    });
+</script>
+
+</body>
+</html>
