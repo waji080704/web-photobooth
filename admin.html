@@ -5,14 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Buat QR Code</title>
     <style>
-        body { font-family: Arial, sans-serif; background: #f0f2f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        body { font-family: Arial, sans-serif; background: #f0f2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
         .container { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
         .btn-google { background: #4285F4; color: white; border: none; padding: 12px; width: 100%; border-radius: 5px; font-size: 16px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; }
         .form-section { display: none; margin-top: 20px; text-align: left; }
-        input { width: 90%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; }
-        .btn-generate { background: #28a745; color: white; border: none; padding: 10px; width: 100%; border-radius: 5px; font-size: 16px; cursor: pointer; }
-        #qr-result { margin-top: 20px; display: none; }
-        #qr-result img { max-width: 100%; border-radius: 10px; border: 5px solid #eee; }
+        input { width: 90%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+        .btn-generate { background: #28a745; color: white; border: none; padding: 10px; width: 100%; border-radius: 5px; font-size: 16px; cursor: pointer; margin-bottom: 15px; }
+        .btn-download { background: #007BFF; color: white; border: none; padding: 10px; width: 100%; border-radius: 5px; font-size: 16px; cursor: pointer; margin-top: 15px; }
+        #qr-result { margin-top: 20px; display: none; padding-top: 15px; border-top: 1px solid #eee; }
+        #qr-result img { max-width: 100%; border-radius: 10px; border: 5px solid #eee; margin-bottom: 10px; }
+        .timer { font-weight: bold; color: #d9534f; font-size: 18px; background: #ffebee; padding: 10px; border-radius: 5px; margin-top: 10px; }
     </style>
 </head>
 <body>
@@ -29,13 +31,16 @@
     </div>
 
     <div id="qr-result">
-        <h3>QR Code Berhasil Dibuat!</h3>
-        <img id="qr-image" src="" alt="QR Code">
-        <p style="color: red; font-size: 14px;">(Berlaku selama 7 Hari)</p>
+        <h3 style="margin-top:0;">QR Code Berhasil Dibuat!</h3>
+        <img id="qr-image" src="" alt="QR Code" crossorigin="anonymous">
+        <div class="timer" id="timer-text">Menghitung waktu...</div>
+        <button class="btn-download" id="btn-download">⬇️ Download QR (JPG)</button>
     </div>
 </div>
 
 <script>
+    let countdownInterval;
+
     // Simulasi Login Google
     document.getElementById('btn-login').addEventListener('click', () => {
         document.getElementById('btn-login').style.display = 'none';
@@ -46,31 +51,64 @@
     // Logika Pembuatan QR Code
     document.getElementById('btn-generate').addEventListener('click', () => {
         const link = document.getElementById('drive-link').value;
-        
-        // Mengambil ID Folder dari Link panjang
         const match = link.match(/folders\/([a-zA-Z0-9_-]+)/);
+        
         if (!match) {
             alert("Link tidak valid! Pastikan link berisi /folders/ID...");
             return;
         }
         
         const folderId = match[1];
-        
-        // Menghitung Waktu Kadaluarsa (7 Hari dari sekarang dalam milidetik)
-        const expiryTime = Date.now() + (7 * 24 * 60 * 60 * 1000);
-
-        // URL Kamera kamu saat ini (Ganti dengan URL Hosting aslimu di Tahap 4 nanti)
-        // Saat ini pakai alamat IP Live Server VS Code untuk testing lokal
+        const expiryTime = Date.now() + (7 * 24 * 60 * 60 * 1000); // 7 Hari
         const baseUrl = window.location.href.replace("admin.html", "index.html");
-        
-        // Merakit URL akhir untuk dimasukkan ke QR Code
         const finalUrl = `${baseUrl}?folderId=${folderId}&exp=${expiryTime}`;
-
-        // Menggunakan API Gratis untuk merubah URL menjadi Gambar QR
-        const qrApi = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(finalUrl)}`;
+        
+        const qrApi = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&format=jpeg&data=${encodeURIComponent(finalUrl)}`;
         
         document.getElementById('qr-image').src = qrApi;
         document.getElementById('qr-result').style.display = 'block';
+        
+        startCountdown(expiryTime);
+    });
+
+    // Fitur Timer Mundur
+    function startCountdown(expiryTime) {
+        clearInterval(countdownInterval);
+        countdownInterval = setInterval(() => {
+            const distance = expiryTime - Date.now();
+
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                document.getElementById('timer-text').innerText = "⛔ QR Code Telah Kadaluarsa!";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            
+            document.getElementById('timer-text').innerText = `Sisa Waktu: ${days} Hari ${hours} Jam ${minutes} Menit`;
+        }, 1000);
+    }
+
+    // Fitur Download QR Code
+    document.getElementById('btn-download').addEventListener('click', async () => {
+        try {
+            const imgSrc = document.getElementById('qr-image').src;
+            const response = await fetch(imgSrc);
+            const blob = await response.blob();
+            const downloadUrl = window.URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = downloadUrl;
+            a.download = 'QR_Photobooth.jpg';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(downloadUrl);
+        } catch (error) {
+            alert('Perangkat menolak unduhan otomatis. Silakan tahan/klik kanan pada gambar QR lalu pilih "Simpan Gambar".');
+        }
     });
 </script>
 

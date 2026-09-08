@@ -3,281 +3,167 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Digital Photobooth</title>
+    <title>Cloud Photobooth</title>
     <style>
-        body {
-            margin: 0; padding: 0;
-            background-color: #000;
-            color: white;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow: hidden; /* Mencegah scroll */
-        }
-        /* Video Kamera */
-        #camera-feed {
-            width: 100vw;
-            height: 100vh;
-            object-fit: cover; /* Biar penuh di layar */
-        }
-        /* UI Overlay di atas kamera */
-        .ui-container {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            pointer-events: none; /* Biar video di belakangnya tidak keblokir */
-        }
-        .top-bar {
-            padding: 20px;
-            text-align: center;
-            font-size: 18px;
-            font-weight: bold;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
-        }
-        .bottom-bar {
-            padding: 30px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            pointer-events: auto; /* Mengaktifkan klik di area bawah */
-            background: linear-gradient(transparent, rgba(0,0,0,0.7));
-        }
-        /* Tombol-tombol */
-        .btn {
-            background: none; border: none; color: white;
-            font-size: 30px; cursor: pointer;
-            width: 60px; height: 60px;
-            display: flex; justify-content: center; align-items: center;
-        }
-        .shutter-btn {
-            width: 75px; height: 75px;
-            border-radius: 50%;
-            background-color: white;
-            border: 4px solid #ddd;
-            box-shadow: 0 0 15px rgba(0,0,0,0.5);
-            transition: transform 0.1s;
-        }
-        .shutter-btn:active { transform: scale(0.9); }
-        .shutter-btn:disabled { background-color: #555; border-color: #333; }
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background-color: #000; overflow: hidden; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        #camera-feed { width: 100%; height: 100%; object-fit: cover; }
         
-        .btn-check { color: #00ff88; display: none; } /* Disembunyikan awalnya */
-
-        /* Modal / Pop-up Input Nama */
-        .modal {
-            display: none; position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9);
-            justify-content: center; align-items: center;
-            pointer-events: auto; z-index: 10;
-        }
-        .modal-content {
-            background: white; color: black;
-            padding: 25px; border-radius: 15px;
-            text-align: center; width: 80%; max-width: 300px;
-        }
-        .modal-content input {
-            width: 90%; padding: 10px; margin: 15px 0;
-            border: 1px solid #ccc; border-radius: 5px;
-            font-size: 16px;
-        }
-        .modal-content button {
-            background: #007bff; color: white;
-            border: none; padding: 10px 20px;
-            border-radius: 5px; font-size: 16px; width: 100%;
-            cursor: pointer;
-        }
-        /* Efek Flash (Kilatan saat foto) */
-        #flash {
-            position: absolute; top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: white; opacity: 0;
-            pointer-events: none; transition: opacity 0.1s;
-        }
-        /* Loading Screen */
-        #loading {
-            display: none; position: absolute; top:0; left:0; width:100%; height:100%;
-            background: rgba(0,0,0,0.8); color: white;
-            justify-content: center; align-items: center; z-index: 20;
-            flex-direction: column;
-        }
+        .top-bar { position: absolute; top: 30px; left: 0; width: 100%; display: flex; justify-content: center; z-index: 10; }
+        .counter { background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); color: white; padding: 6px 14px; border-radius: 15px; font-size: 16px; font-weight: 500; letter-spacing: 1px; }
+        
+        .bottom-bar { position: absolute; bottom: 40px; left: 0; width: 100%; display: flex; justify-content: space-evenly; align-items: center; z-index: 10; }
+        
+        /* Desain Glassmorphism Modern */
+        .btn-switch { background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 50%; width: 50px; height: 50px; font-size: 20px; color: white; cursor: pointer; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        
+        .btn-shutter { background: transparent; border: 3px solid white; border-radius: 50%; width: 70px; height: 70px; cursor: pointer; position: relative; }
+        .btn-shutter::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; width: 56px; height: 56px; border-radius: 50%; transition: 0.1s; }
+        .btn-shutter:active::after { width: 48px; height: 48px; }
+        
+        /* Tombol Centang Biru Elegan */
+        .btn-done { background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 50%; width: 50px; height: 50px; font-size: 24px; color: #0A84FF; cursor: pointer; display: none; justify-content: center; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.2); font-weight: bold; }
+        
+        #flash-effect { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: white; opacity: 0; pointer-events: none; z-index: 20; transition: opacity 0.1s; }
+        
+        .modal { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 30; justify-content: center; align-items: center; flex-direction: column; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+        .modal-box { background: white; padding: 25px; border-radius: 15px; width: 80%; max-width: 320px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        .modal-box h3 { margin-top: 0; color: #333; }
+        .modal-box p { color: #666; font-size: 14px; }
+        .modal-box input { width: 90%; padding: 12px; margin: 15px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; outline: none; }
+        .modal-box input:focus { border-color: #0A84FF; }
+        .modal-box button { background: #0A84FF; color: white; border: none; padding: 12px 20px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; width: 100%; }
+        
+        #loading-text { color: white; margin-top: 20px; font-size: 16px; display: none; font-weight: 500; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); }
     </style>
 </head>
 <body>
 
-    <!-- Area Kamera -->
     <video id="camera-feed" autoplay playsinline></video>
-    <div id="flash"></div>
     <canvas id="canvas" style="display: none;"></canvas>
+    <div id="flash-effect"></div>
 
-    <!-- UI Overlay -->
-    <div class="ui-container">
-        <div class="top-bar">
-            Kuota Foto: <span id="counter">0</span> / 18
-        </div>
-        <div class="bottom-bar">
-            <!-- Tombol Switch Kamera (Depan/Belakang) -->
-            <button class="btn" onclick="switchCamera()">🔄</button>
-            
-            <!-- Tombol Jepret -->
-            <button class="shutter-btn" id="shutter" onclick="takePhoto()"></button>
-            
-            <!-- Tombol Centang (Selesai) -->
-            <button class="btn btn-check" id="finish-btn" onclick="showModal()">✅</button>
-        </div>
+    <div class="top-bar">
+        <div class="counter"><span id="photo-count">0</span> / 18</div>
     </div>
 
-    <!-- Modal Input Nama -->
-    <div class="modal" id="name-modal">
-        <div class="modal-content">
+    <div class="bottom-bar">
+        <button class="btn-switch" id="btn-switch">🔄</button>
+        <button class="btn-shutter" id="btn-shutter"></button>
+        <button class="btn-done" id="btn-done">✔</button>
+    </div>
+
+    <div class="modal" id="modal">
+        <div class="modal-box" id="input-box">
             <h3>Selesai Foto!</h3>
-            <p>Masukkan namamu untuk membuat folder Drive:</p>
-            <input type="text" id="user-name" placeholder="Contoh: Ardi" autocomplete="off">
-            <button onclick="sendPhotos()">Kirim Foto ke Drive</button>
+            <p>Masukkan namamu untuk membuat folder:</p>
+            <input type="text" id="user-name" placeholder="Contoh: Ardi" required autocomplete="off">
+            <button id="btn-submit">Kirim ke Drive</button>
         </div>
-    </div>
-
-    <!-- Loading Screen -->
-    <div id="loading">
-        <h2>Sedang Mengirim...</h2>
-        <p>Tunggu sebentar, sedang membuat folder dan upload foto.</p>
+        <div id="loading-text">Sedang memproses foto... ⏳</div>
     </div>
 
     <script>
-        // ==========================================
-        // GANTI URL DI BAWAH INI DENGAN URL DARI TAHAP 1
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx-Jj1n32O9FPnboHIP0Mw5KJQuTjVkqGlGA0CCOCscNjqn7-Gmx5sJUk7h48kXpGMU/exec';
-        // ==========================================
+        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx-Jj1n32O9FPnboHIP0Mw5KJQuTjVkqGlGA0CCOCscNjqn7-Gmx5sJUk7h48kXpGMU/exec";
 
         let video = document.getElementById('camera-feed');
         let canvas = document.getElementById('canvas');
         let ctx = canvas.getContext('2d');
-        let currentFacingMode = 'environment'; // Default: Kamera Belakang (environment)
-        let stream = null;
-        
-        let photos = [];
+        let currentFacingMode = 'user';
+        let capturedImages = [];
         const MAX_PHOTOS = 18;
 
-        // Mengambil Parameter ID Folder dari URL (Nanti ini dari hasil scan QR)
         const urlParams = new URLSearchParams(window.location.search);
-        let folderId = urlParams.get('folderId'); // Contoh: ?folderId=1aBc...
+        let mainFolderId = urlParams.get('folderId'); 
 
-        // --- TAMBAHKAN SENSOR KADALUARSA 7 HARI DI SINI ---
         let expTime = urlParams.get('exp');
         if (expTime && Date.now() > parseInt(expTime)) {
-            document.body.innerHTML = "<div style='color:white; text-align:center; padding:50px; font-family:Arial;'><h2>⛔ Akses Ditolak</h2><p>QR Code ini sudah kadaluarsa (lebih dari 7 hari).</p><p>Silakan minta admin membuat QR Code baru.</p></div>";
+            document.body.innerHTML = "<div style='color:white; text-align:center; padding:50px; font-family:sans-serif;'><h2>⛔ Akses Ditolak</h2><p>QR Code ini sudah kadaluarsa.</p></div>";
             throw new Error("QR Expired"); 
         }
 
-        // Memulai Kamera
-        async function startCamera() {
-            if (stream) {
-                stream.getTracks().forEach(track => track.stop()); // Stop kamera sebelumnya jika switch
+        async function startCamera(facingMode) {
+            if (video.srcObject) {
+                video.srcObject.getTracks().forEach(track => track.stop());
             }
             
+            // Perbaikan Performa: Diturunkan dari 4096px ke 1920px (1080p)
             const constraints = {
                 video: {
-                    facingMode: currentFacingMode,
-                    width: { ideal: 4096 }, // Meminta resolusi maksimal
-                    height: { ideal: 4096 }
-                }
+                    facingMode: facingMode,
+                    width: { ideal: 1920 }, 
+                    height: { ideal: 1080 }
+                },
+                audio: false
             };
 
             try {
-                stream = await navigator.mediaDevices.getUserMedia(constraints);
+                const stream = await navigator.mediaDevices.getUserMedia(constraints);
                 video.srcObject = stream;
             } catch (err) {
-                alert("Gagal mengakses kamera: " + err.message);
+                alert("Gagal mengakses kamera.");
             }
         }
 
-        // Fungsi Switch Kamera
-        function switchCamera() {
-            currentFacingMode = (currentFacingMode === 'environment') ? 'user' : 'environment';
-            startCamera();
-        }
+        document.getElementById('btn-switch').addEventListener('click', () => {
+            currentFacingMode = currentFacingMode === 'user' ? 'environment' : 'user';
+            startCamera(currentFacingMode);
+        });
 
-        // Fungsi Jepret Foto
-        function takePhoto() {
-            if (photos.length >= MAX_PHOTOS) return;
+        document.getElementById('btn-shutter').addEventListener('click', () => {
+            if (capturedImages.length >= MAX_PHOTOS) return;
 
-            // Set ukuran canvas sama persis dengan resolusi asli kamera (agar HQ)
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            
-            // Gambar frame saat ini ke canvas
-            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-            
-            // Ubah ke format Base64 (JPG)
-            let base64Image = canvas.toDataURL('image/jpeg', 0.9); // 0.9 = Quality 90%
-            photos.push(base64Image);
-            
-            // Efek Flash
-            let flash = document.getElementById('flash');
+            let flash = document.getElementById('flash-effect');
             flash.style.opacity = '1';
             setTimeout(() => { flash.style.opacity = '0'; }, 100);
 
-            // Update UI
-            document.getElementById('counter').innerText = photos.length;
-            document.getElementById('finish-btn').style.display = 'flex'; // Munculkan tombol centang
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            
+            // Kompresi ringan (0.8) agar upload bebas hambatan
+            let imageData = canvas.toDataURL('image/jpeg', 0.8);
+            capturedImages.push(imageData);
 
-            if (photos.length >= MAX_PHOTOS) {
-                document.getElementById('shutter').disabled = true; // Matikan tombol jika batas tercapai
+            document.getElementById('photo-count').innerText = capturedImages.length;
+
+            if (capturedImages.length > 0) {
+                document.getElementById('btn-done').style.display = 'flex';
             }
-        }
+        });
 
-        // Fungsi Memunculkan Modal
-        function showModal() {
-            if (!folderId) {
-                alert("Error: ID Folder tujuan tidak ditemukan! Pastikan scan dari QR Code yang benar.");
-                return;
-            }
-            document.getElementById('name-modal').style.display = 'flex';
-        }
+        document.getElementById('btn-done').addEventListener('click', () => {
+            document.getElementById('modal').style.display = 'flex';
+        });
 
-        // Fungsi Kirim Foto ke Google Drive (GAS)
-        async function sendPhotos() {
-            let nameInput = document.getElementById('user-name').value.trim();
-            if (nameInput === "") {
-                alert("Nama tidak boleh kosong!");
-                return;
-            }
+        document.getElementById('btn-submit').addEventListener('click', async () => {
+            let userName = document.getElementById('user-name').value.trim();
+            if (!userName) return alert("Namanya harus diisi!");
+            if (!mainFolderId) mainFolderId = prompt("Masukkan ID Folder Drive tujuan:");
 
-            document.getElementById('name-modal').style.display = 'none';
-            document.getElementById('loading').style.display = 'flex';
-
-            let payload = {
-                mainFolderId: folderId,
-                userName: nameInput,
-                images: photos
-            };
+            document.getElementById('input-box').style.display = 'none';
+            document.getElementById('loading-text').style.display = 'block';
 
             try {
-                let response = await fetch(SCRIPT_URL, {
+                let response = await fetch(GAS_WEB_APP_URL, {
                     method: 'POST',
-                    headers: {
-                        "Content-Type": "text/plain;charset=utf-8", // Trik agar GAS tidak error CORS
-                    },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify({ mainFolderId: mainFolderId, userName: userName, images: capturedImages }),
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' }
                 });
-                
+
                 let result = await response.json();
                 
                 if (result.status === "sukses") {
-                    alert("Sukses! Fotomu berhasil disimpan di folder: " + result.folder);
-                    window.location.reload(); // Refresh halaman setelah sukses
+                    alert("Berhasil! Foto telah dikirim ke folder " + result.folder);
+                    location.reload();
                 } else {
-                    alert("Gagal menyimpan: " + result.error);
+                    alert("Gagal: " + result.error);
                 }
-            } catch (error) {
-                alert("Terjadi kesalahan jaringan atau server.");
-                console.error(error);
-            } finally {
-                document.getElementById('loading').style.display = 'none';
+            } catch (err) {
+                alert("Koneksi bermasalah.");
             }
-        }
+        });
 
-        // Jalankan kamera saat web dibuka
-        startCamera();
+        window.onload = () => startCamera(currentFacingMode);
     </script>
 </body>
 </html>
