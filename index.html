@@ -38,7 +38,7 @@
 </head>
 <body>
 
-    <video id="camera-feed" autoplay playsinline></video>
+    <video id="camera-feed" autoplay playsinline muted></video>
     <canvas id="canvas" style="display: none;"></canvas>
     <div id="flash-effect"></div>
 
@@ -83,26 +83,38 @@
 
         async function startCamera(facingMode) {
             if (video.srcObject) {
-                video.srcObject.getTracks().forEach(track => track.stop());
+            video.srcObject.getTracks().forEach(track => track.stop());
             }
-            
-            // Perbaikan Performa: Diturunkan dari 4096px ke 1920px (1080p)
-            const constraints = {
-                video: {
-                    facingMode: facingMode,
-                    width: { ideal: 1920 }, 
-                    height: { ideal: 1080 }
-                },
-                audio: false
-            };
+    
+    // Setelan Ideal: Resolusi HD yang tajam namun ringan untuk 95% HP
+    let constraints = {
+        video: {
+            facingMode: facingMode,
+            width: { ideal: 1280 }, 
+            height: { ideal: 720 }
+        },
+        audio: false
+    };
 
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia(constraints);
-                video.srcObject = stream;
-            } catch (err) {
-                alert("Gagal mengakses kamera.");
-            }
+    try {
+        // Coba nyalakan kamera dengan setelan Ideal
+        const stream = await navigator.mediaDevices.getUserMedia(constraints);
+        video.srcObject = stream;
+    } catch (err) {
+        // Jika HP menolak atau nge-lag, sistem otomatis menggunakan setelan paling dasar
+        console.log("Sistem menurunkan resolusi agar kompatibel...");
+        const fallbackConstraints = {
+            video: { facingMode: facingMode },
+            audio: false
+        };
+        try {
+            const fallbackStream = await navigator.mediaDevices.getUserMedia(fallbackConstraints);
+            video.srcObject = fallbackStream;
+        } catch (errorFatal) {
+            alert("Kamera HP ini tidak merespons. Pastikan izin kamera sudah diberikan di pengaturan Chrome.");
         }
+    }
+}
 
         document.getElementById('btn-switch').addEventListener('click', () => {
             currentFacingMode = currentFacingMode === 'user' ? 'environment' : 'user';
