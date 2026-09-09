@@ -3,35 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Buat QR Code</title>
+    <title>Admin - Setup QR Wedding Photobooth</title>
     <style>
         body { font-family: Arial, sans-serif; background: #f0f2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
-        .container { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
+        .container { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 100%; max-width: 450px; text-align: center; }
         .btn-google { background: #4285F4; color: white; border: none; padding: 12px; width: 100%; border-radius: 5px; font-size: 16px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; }
         .form-section { display: none; margin-top: 20px; text-align: left; }
-        input { width: 90%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
-        .btn-generate { background: #28a745; color: white; border: none; padding: 10px; width: 100%; border-radius: 5px; font-size: 16px; cursor: pointer; margin-bottom: 15px; }
+        label { font-weight: bold; font-size: 14px; color: #333; display: block; margin-top: 15px; }
+        input { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; font-size: 14px; }
+        .btn-generate { background: #28a745; color: white; border: none; padding: 12px; width: 100%; border-radius: 5px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 20px; }
         .btn-download { background: #007BFF; color: white; border: none; padding: 10px; width: 100%; border-radius: 5px; font-size: 16px; cursor: pointer; margin-top: 15px; }
-        #qr-result { margin-top: 20px; display: none; padding-top: 15px; border-top: 1px solid #eee; }
+        #qr-result { margin-top: 25px; display: none; padding-top: 20px; border-top: 1px solid #eee; }
         #qr-result img { max-width: 100%; border-radius: 10px; border: 5px solid #eee; margin-bottom: 10px; }
-        .timer { font-weight: bold; color: #d9534f; font-size: 18px; background: #ffebee; padding: 10px; border-radius: 5px; margin-top: 10px; }
+        .timer { font-weight: bold; color: #d9534f; font-size: 16px; background: #ffebee; padding: 10px; border-radius: 5px; margin-top: 10px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Admin Login</h2>
-    <p id="login-text">Login dengan Google untuk membuat QR Code.</p>
+    <h2>Setup QR Wedding</h2>
+    <p id="login-text">Login untuk membuat akses Photobooth & Guestbook.</p>
     <button class="btn-google" id="btn-login">🌐 Login with Google</button>
 
     <div class="form-section" id="form-section">
-        <label>Masukkan Link Folder Google Drive:</label>
-        <input type="text" id="drive-link" placeholder="https://drive.google.com/drive/folders/1aBcD..." required>
-        <button class="btn-generate" id="btn-generate">Buat QR Code</button>
+        <label>1. Link Folder Google Drive (Untuk Foto):</label>
+        <input type="text" id="drive-link" placeholder="https://drive.google.com/drive/folders/ID_FOLDER..." required>
+        
+        <label>2. Link Google Sheets (Untuk Ucapan):</label>
+        <input type="text" id="sheet-link" placeholder="https://docs.google.com/spreadsheets/d/ID_SHEET/edit..." required>
+        
+        <button class="btn-generate" id="btn-generate">Buat QR Code Multi-Fungsi</button>
     </div>
 
     <div id="qr-result">
-        <h3 style="margin-top:0;">QR Code Berhasil Dibuat!</h3>
+        <h3 style="margin-top:0; color: #28a745;">QR Code Siap!</h3>
         <img id="qr-image" src="" alt="QR Code" crossorigin="anonymous">
         <div class="timer" id="timer-text">Menghitung waktu...</div>
         <button class="btn-download" id="btn-download">⬇️ Download QR (JPG)</button>
@@ -41,27 +46,35 @@
 <script>
     let countdownInterval;
 
-    // Simulasi Login Google
     document.getElementById('btn-login').addEventListener('click', () => {
         document.getElementById('btn-login').style.display = 'none';
         document.getElementById('login-text').style.display = 'none';
         document.getElementById('form-section').style.display = 'block';
     });
 
-    // Logika Pembuatan QR Code
     document.getElementById('btn-generate').addEventListener('click', () => {
-        const link = document.getElementById('drive-link').value;
-        const match = link.match(/folders\/([a-zA-Z0-9_-]+)/);
+        const driveLink = document.getElementById('drive-link').value;
+        const sheetLink = document.getElementById('sheet-link').value;
         
-        if (!match) {
-            alert("Link tidak valid! Pastikan link berisi /folders/ID...");
+        // Ekstrak ID Drive
+        const driveMatch = driveLink.match(/folders\/([a-zA-Z0-9_-]+)/);
+        // Ekstrak ID Sheets
+        const sheetMatch = sheetLink.match(/d\/([a-zA-Z0-9_-]+)/);
+        
+        if (!driveMatch || !sheetMatch) {
+            alert("Link tidak valid! Pastikan kamu memasukkan Link Drive dan Link Sheets yang benar.");
             return;
         }
         
-        const folderId = match[1];
-        const expiryTime = Date.now() + (7 * 24 * 60 * 60 * 1000); // 7 Hari
+        const folderId = driveMatch[1];
+        const sheetId = sheetMatch[1];
+        const expiryTime = Date.now() + (7 * 24 * 60 * 60 * 1000); 
+        
+        // URL otomatis mendeteksi lokasi online (GitHub) atau lokal (VS Code)
         const baseUrl = window.location.href.replace("admin.html", "index.html");
-        const finalUrl = `${baseUrl}?folderId=${folderId}&exp=${expiryTime}`;
+        
+        // Menyusun URL dengan 2 ID sekaligus
+        const finalUrl = `${baseUrl}?folderId=${folderId}&sheetId=${sheetId}&exp=${expiryTime}`;
         
         const qrApi = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&format=jpeg&data=${encodeURIComponent(finalUrl)}`;
         
@@ -71,43 +84,37 @@
         startCountdown(expiryTime);
     });
 
-    // Fitur Timer Mundur
     function startCountdown(expiryTime) {
         clearInterval(countdownInterval);
         countdownInterval = setInterval(() => {
             const distance = expiryTime - Date.now();
-
             if (distance < 0) {
                 clearInterval(countdownInterval);
                 document.getElementById('timer-text').innerText = "⛔ QR Code Telah Kadaluarsa!";
                 return;
             }
-
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            
-            document.getElementById('timer-text').innerText = `Sisa Waktu: ${days} Hari ${hours} Jam ${minutes} Menit`;
+            document.getElementById('timer-text').innerText = `Berlaku: ${days} Hari ${hours} Jam ${minutes} Menit`;
         }, 1000);
     }
 
-    // Fitur Download QR Code
     document.getElementById('btn-download').addEventListener('click', async () => {
         try {
             const imgSrc = document.getElementById('qr-image').src;
             const response = await fetch(imgSrc);
             const blob = await response.blob();
             const downloadUrl = window.URL.createObjectURL(blob);
-            
             const a = document.createElement('a');
             a.style.display = 'none';
             a.href = downloadUrl;
-            a.download = 'QR_Photobooth.jpg';
+            a.download = 'QR_Wedding_Photobooth.jpg';
             document.body.appendChild(a);
             a.click();
             window.URL.revokeObjectURL(downloadUrl);
         } catch (error) {
-            alert('Perangkat menolak unduhan otomatis. Silakan tahan/klik kanan pada gambar QR lalu pilih "Simpan Gambar".');
+            alert('Gagal unduh otomatis. Tahan gambar QR dan pilih "Simpan".');
         }
     });
 </script>
