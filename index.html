@@ -238,14 +238,22 @@
             btn.innerText = "Mengirim..."; btn.disabled = true;
 
             try {
-                await fetch(GAS_WEB_APP_URL, {
+                let res = await fetch(GAS_WEB_APP_URL, {
                     method: 'POST',
                     body: JSON.stringify({ type: "comment", sheetId: sheetId, userName: name, message: message }),
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' }
                 });
-                showView('view-4'); // Lompat ke halaman terima kasih
+        
+                let result = await res.json(); // Memaksa membaca jawaban dari Google Sheets
+
+                if (result.status === "sukses") {
+                    showView('view-4'); // Hanya pindah ke View 4 JIKA data benar-benar masuk ke Sheet
+                } else {
+                    alert("Gagal menyimpan ke Sheet. Detail error: " + result.error);
+                    btn.innerText = "Kirim Ucapan"; btn.disabled = false;
+                }
             } catch (e) {
-                alert("Gagal mengirim ucapan.");
+                alert("Gagal menghubungi server. Pastikan internet lancar.");
                 btn.innerText = "Kirim Ucapan"; btn.disabled = false;
             }
         }
