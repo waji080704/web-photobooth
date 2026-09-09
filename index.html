@@ -3,68 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Cloud Photobooth</title>
+    <title>Wedding Photobooth & Guestbook</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background-color: #000; overflow: hidden; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; font-family: 'Poppins', sans-serif; color: #FFFDD0; background-color: #000; }
+        
+        /* Tema Adat Jawa (Cokelat Tua & Emas dengan Tekstur Halus) */
+        .jawa-bg { background: linear-gradient(135deg, #3e2723 0%, #21110b 100%); position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; transition: opacity 0.5s; }
+        .jawa-bg::after { content: ''; position: absolute; top:0; left:0; right:0; bottom:0; background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20.5V18H0v-2h20v-2H0v-2h20v-2H0V8h20V6H0V4h20V2H0V0h22v20h2V0h2v20h2V0h2v20h2V0h2v20h2V0h2v20h2v2H20v-1.5z' fill='%23d4af37' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E"); pointer-events: none; }
+
+        .view { display: none; width: 100%; height: 100%; flex-direction: column; justify-content: center; align-items: center; position: absolute; top: 0; left: 0; text-align: center; box-sizing: border-box; padding: 20px; animation: fadeIn 0.5s; }
+        .active-view { display: flex; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* View 1: Landing Page */
+        .title-pre { font-family: 'Playfair Display', serif; font-style: italic; font-size: 20px; color: #D4AF37; margin-bottom: 5px; }
+        .title-names { font-family: 'Playfair Display', serif; font-size: 42px; font-weight: bold; margin: 0; text-shadow: 2px 2px 5px rgba(0,0,0,0.5); }
+        .title-date { font-size: 16px; letter-spacing: 3px; margin-top: 10px; margin-bottom: 40px; }
+        .btn-gold { background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c); color: #3e2723; border: none; padding: 15px 40px; border-radius: 30px; font-size: 18px; font-weight: bold; font-family: 'Playfair Display', serif; cursor: pointer; box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3); transition: transform 0.2s; }
+        .btn-gold:active { transform: scale(0.95); }
+
+        /* View 2: Camera */
+        #camera-container { width: 100%; height: 100%; background: #000; position: absolute; top: 0; left: 0; z-index: 10; display: none; }
         #camera-feed { width: 100%; height: 100%; object-fit: cover; }
+        .cam-top-bar { position: absolute; top: 30px; left: 0; width: 100%; display: flex; justify-content: center; z-index: 12; }
+        .cam-counter { background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); padding: 6px 14px; border-radius: 15px; font-size: 16px; font-weight: 600; border: 1px solid #D4AF37; }
+        .cam-bottom-bar { position: absolute; bottom: 40px; left: 0; width: 100%; display: flex; justify-content: space-evenly; align-items: center; z-index: 12; }
+        .btn-switch, .btn-done { background: rgba(0,0,0,0.6); border: 1px solid #D4AF37; border-radius: 50%; width: 50px; height: 50px; font-size: 20px; color: #D4AF37; display: flex; justify-content: center; align-items: center; }
+        .btn-done { display: none; font-weight: bold; background: #D4AF37; color: #3e2723; }
+        .btn-shutter { background: transparent; border: 3px solid #D4AF37; border-radius: 50%; width: 70px; height: 70px; position: relative; }
+        .btn-shutter::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #D4AF37; width: 56px; height: 56px; border-radius: 50%; }
         
-        .top-bar { position: absolute; top: 30px; left: 0; width: 100%; display: flex; justify-content: center; z-index: 10; }
-        .counter { background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); color: white; padding: 6px 14px; border-radius: 15px; font-size: 16px; font-weight: 500; letter-spacing: 1px; }
+        .modal { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 30; justify-content: center; align-items: center; flex-direction: column; }
+        .modal-box { background: #3e2723; padding: 25px; border-radius: 15px; width: 80%; max-width: 320px; border: 1px solid #D4AF37; text-align: center; }
+        .modal-box input { width: 90%; padding: 12px; margin: 15px 0; border: none; border-radius: 8px; font-size: 16px; text-align: center; font-family: 'Poppins', sans-serif; }
         
-        .bottom-bar { position: absolute; bottom: 40px; left: 0; width: 100%; display: flex; justify-content: space-evenly; align-items: center; z-index: 10; }
+        /* View 3: Guestbook */
+        .gb-title { font-family: 'Playfair Display', serif; font-size: 28px; color: #D4AF37; margin-bottom: 5px; }
+        .gb-subtitle { font-size: 14px; margin-bottom: 20px; color: #FFFDD0; opacity: 0.8; }
+        .gb-input, .gb-textarea { width: 100%; max-width: 320px; padding: 12px; margin-bottom: 15px; border: 1px solid #D4AF37; border-radius: 8px; font-size: 14px; background: rgba(255,255,255,0.9); font-family: 'Poppins', sans-serif; box-sizing: border-box; }
+        .gb-textarea { resize: none; height: 80px; }
         
-        /* Desain Glassmorphism Modern */
-        .btn-switch { background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 50%; width: 50px; height: 50px; font-size: 20px; color: white; cursor: pointer; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-        
-        .btn-shutter { background: transparent; border: 3px solid white; border-radius: 50%; width: 70px; height: 70px; cursor: pointer; position: relative; }
-        .btn-shutter::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; width: 56px; height: 56px; border-radius: 50%; transition: 0.1s; }
-        .btn-shutter:active::after { width: 48px; height: 48px; }
-        
-        /* Tombol Centang Biru Elegan */
-        .btn-done { background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 50%; width: 50px; height: 50px; font-size: 24px; color: #0A84FF; cursor: pointer; display: none; justify-content: center; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.2); font-weight: bold; }
-        
-        #flash-effect { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: white; opacity: 0; pointer-events: none; z-index: 20; transition: opacity 0.1s; }
-        
-        .modal { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 30; justify-content: center; align-items: center; flex-direction: column; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
-        .modal-box { background: white; padding: 25px; border-radius: 15px; width: 80%; max-width: 320px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
-        .modal-box h3 { margin-top: 0; color: #333; }
-        .modal-box p { color: #666; font-size: 14px; }
-        .modal-box input { width: 90%; padding: 12px; margin: 15px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; outline: none; }
-        .modal-box input:focus { border-color: #0A84FF; }
-        .modal-box button { background: #0A84FF; color: white; border: none; padding: 12px 20px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; width: 100%; }
-        
-        #loading-text { color: white; margin-top: 20px; font-size: 16px; display: none; font-weight: 500; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); }
+        .comments-container { width: 100%; max-width: 320px; height: 200px; background: rgba(0,0,0,0.4); border-radius: 10px; border: 1px solid rgba(212, 175, 55, 0.3); overflow-y: auto; margin-top: 15px; padding: 10px; text-align: left; box-sizing: border-box; }
+        .comment-item { background: rgba(255,255,255,0.1); padding: 10px; border-radius: 8px; margin-bottom: 10px; font-size: 13px; }
+        .comment-name { font-weight: bold; color: #D4AF37; margin-bottom: 3px; }
+        .comment-date { font-size: 10px; opacity: 0.6; display: block; margin-top: 3px; }
+
+        /* View 4: Company Profile */
+        .cp-title { font-family: 'Playfair Display', serif; font-size: 36px; color: #D4AF37; }
+        .cp-vendor { font-size: 18px; letter-spacing: 2px; margin-bottom: 40px; }
+        .wa-icon { background: #25D366; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; text-decoration: none; box-shadow: 0 4px 15px rgba(37,211,102,0.4); margin: 0 auto; transition: transform 0.2s; }
+        .wa-icon:active { transform: scale(0.9); }
+        .wa-icon svg { width: 35px; height: 35px; fill: white; }
     </style>
 </head>
 <body>
 
-    <video id="camera-feed" autoplay playsinline muted></video>
-    <canvas id="canvas" style="display: none;"></canvas>
-    <div id="flash-effect"></div>
+    <div class="jawa-bg" id="bg-jawa"></div>
 
-    <div class="top-bar">
-        <div class="counter"><span id="photo-count">0</span> / 18</div>
+    <!-- VIEW 1: LANDING PAGE -->
+    <div id="view-1" class="view active-view">
+        <div class="title-pre">The Wedding Of</div>
+        <h1 class="title-names">Maghfiroh<br>& Eko</h1>
+        <div class="title-date">12.09.2026</div>
+        <button class="btn-gold" onclick="openCamera()">Take Photo</button>
     </div>
 
-    <div class="bottom-bar">
-        <button class="btn-switch" id="btn-switch">🔄</button>
-        <button class="btn-shutter" id="btn-shutter"></button>
-        <button class="btn-done" id="btn-done">✔</button>
-    </div>
-
-    <div class="modal" id="modal">
-        <div class="modal-box" id="input-box">
-            <h3>Selesai Foto!</h3>
-            <p>Masukkan namamu untuk membuat folder:</p>
-            <input type="text" id="user-name" placeholder="Contoh: Ardi" required autocomplete="off">
-            <button id="btn-submit">Kirim ke Drive</button>
+    <!-- VIEW 2: CAMERA -->
+    <div id="camera-container">
+        <video id="camera-feed" autoplay playsinline muted></video>
+        <canvas id="canvas" style="display: none;"></canvas>
+        <div id="flash-effect" style="position: absolute; top:0; left:0; width:100%; height:100%; background:white; opacity:0; pointer-events:none; z-index:20;"></div>
+        
+        <div class="cam-top-bar">
+            <div class="cam-counter"><span id="photo-count">0</span> / 18</div>
         </div>
-        <div id="loading-text">Sedang memproses foto... ⏳</div>
+        <div class="cam-bottom-bar">
+            <button class="btn-switch" onclick="switchCamera()">🔄</button>
+            <button class="btn-shutter" onclick="takePhoto()"></button>
+            <button class="btn-done" id="btn-done" onclick="showNameModal()">✔</button>
+        </div>
+
+        <div class="modal" id="modal-name">
+            <div class="modal-box">
+                <h3 style="margin-top:0; color:#D4AF37; font-family:'Playfair Display', serif;">Selesai Berfoto</h3>
+                <p style="font-size:13px; margin-bottom:0;">Masukkan nama untuk format foto.</p>
+                <input type="text" id="photo-name" placeholder="Nama Kamu" required autocomplete="off">
+                <button class="btn-gold" style="width:100%; padding:10px; font-size:16px;" onclick="submitPhotoAndProceed()">Kirim & Lanjut</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- VIEW 3: GUESTBOOK -->
+    <div id="view-3" class="view">
+        <div class="gb-title">Ucapkan Sesuatu</div>
+        <div class="gb-subtitle">Berikan Ucapan & Doa Restu</div>
+        <input type="text" id="gb-name" class="gb-input" placeholder="Nama Anda" readonly>
+        <textarea id="gb-message" class="gb-textarea" placeholder="Tulis doa dan ucapan disini..." required></textarea>
+        <button class="btn-gold" id="btn-send-comment" style="width:100%; max-width:320px; padding:10px; font-size:16px;" onclick="sendComment()">Kirim Ucapan</button>
+        
+        <div class="comments-container" id="comments-box">
+            <div style="text-align:center; opacity:0.6; font-size:12px; margin-top:30px;">Memuat ucapan...</div>
+        </div>
+    </div>
+
+    <!-- VIEW 4: COMPANY PROFILE -->
+    <div id="view-4" class="view">
+        <div class="cp-title">Terima Kasih</div>
+        <div class="cp-vendor">By Artea</div>
+        <!-- GANTI NOMOR WA DI BAWAH INI (Gunakan kode negara 62) -->
+        <a href="https://wa.me/6287852738914" target="_blank" class="wa-icon">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.82 9.82 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+        </a>
     </div>
 
     <script>
         const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx-Jj1n32O9FPnboHIP0Mw5KJQuTjVkqGlGA0CCOCscNjqn7-Gmx5sJUk7h48kXpGMU/exec";
-
+        
         let video = document.getElementById('camera-feed');
         let canvas = document.getElementById('canvas');
         let ctx = canvas.getContext('2d');
@@ -73,109 +128,127 @@
         const MAX_PHOTOS = 18;
 
         const urlParams = new URLSearchParams(window.location.search);
-        let mainFolderId = urlParams.get('folderId'); 
+        const folderId = urlParams.get('folderId'); 
+        const sheetId = urlParams.get('sheetId');
+        const expTime = urlParams.get('exp');
 
-        let expTime = urlParams.get('exp');
+        // Validasi Kadaluarsa
         if (expTime && Date.now() > parseInt(expTime)) {
-            document.body.innerHTML = "<div style='color:white; text-align:center; padding:50px; font-family:sans-serif;'><h2>⛔ Akses Ditolak</h2><p>QR Code ini sudah kadaluarsa.</p></div>";
+            document.body.innerHTML = "<div style='color:#D4AF37; text-align:center; padding:50px; font-family:Playfair Display;'><h2>⛔ Akses Ditolak</h2><p>QR Code ini sudah kadaluarsa.</p></div>";
             throw new Error("QR Expired"); 
         }
 
-        async function startCamera(facingMode) {
-            if (video.srcObject) {
-            video.srcObject.getTracks().forEach(track => track.stop());
+        // NAVIGASI SPA
+        function showView(viewId) {
+            document.querySelectorAll('.view').forEach(el => el.classList.remove('active-view'));
+            if(viewId !== 'view-2') document.getElementById('bg-jawa').style.opacity = '1';
+            
+            if(viewId === 'view-2') {
+                document.getElementById('bg-jawa').style.opacity = '0.2';
+                document.getElementById('camera-container').style.display = 'block';
+            } else {
+                document.getElementById('camera-container').style.display = 'none';
+                document.getElementById(viewId).classList.add('active-view');
             }
-    
-    // Setelan Ideal: Resolusi HD yang tajam namun ringan untuk 95% HP
-    let constraints = {
-        video: {
-            facingMode: facingMode,
-            width: { ideal: 1280 }, 
-            height: { ideal: 720 }
-        },
-        audio: false
-    };
-
-    try {
-        // Coba nyalakan kamera dengan setelan Ideal
-        const stream = await navigator.mediaDevices.getUserMedia(constraints);
-        video.srcObject = stream;
-    } catch (err) {
-        // Jika HP menolak atau nge-lag, sistem otomatis menggunakan setelan paling dasar
-        console.log("Sistem menurunkan resolusi agar kompatibel...");
-        const fallbackConstraints = {
-            video: { facingMode: facingMode },
-            audio: false
-        };
-        try {
-            const fallbackStream = await navigator.mediaDevices.getUserMedia(fallbackConstraints);
-            video.srcObject = fallbackStream;
-        } catch (errorFatal) {
-            alert("Kamera HP ini tidak merespons. Pastikan izin kamera sudah diberikan di pengaturan Chrome.");
         }
-    }
-}
 
-        document.getElementById('btn-switch').addEventListener('click', () => {
+        // LOGIKA KAMERA (View 2)
+        async function openCamera() {
+            showView('view-2');
+            let constraints = { video: { facingMode: currentFacingMode, width: { ideal: 1280 }, height: { ideal: 720 } }, audio: false };
+            try {
+                video.srcObject = await navigator.mediaDevices.getUserMedia(constraints);
+            } catch (err) {
+                video.srcObject = await navigator.mediaDevices.getUserMedia({ video: { facingMode: currentFacingMode }, audio: false });
+            }
+        }
+
+        function switchCamera() {
             currentFacingMode = currentFacingMode === 'user' ? 'environment' : 'user';
-            startCamera(currentFacingMode);
-        });
+            openCamera();
+        }
 
-        document.getElementById('btn-shutter').addEventListener('click', () => {
+        function takePhoto() {
             if (capturedImages.length >= MAX_PHOTOS) return;
-
             let flash = document.getElementById('flash-effect');
             flash.style.opacity = '1';
             setTimeout(() => { flash.style.opacity = '0'; }, 100);
 
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
+            canvas.width = video.videoWidth; canvas.height = video.videoHeight;
             ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-            
-            // Kompresi ringan (0.8) agar upload bebas hambatan
-            let imageData = canvas.toDataURL('image/jpeg', 0.8);
-            capturedImages.push(imageData);
+            capturedImages.push(canvas.toDataURL('image/jpeg', 0.8));
 
             document.getElementById('photo-count').innerText = capturedImages.length;
+            if (capturedImages.length > 0) document.getElementById('btn-done').style.display = 'flex';
+        }
 
-            if (capturedImages.length > 0) {
-                document.getElementById('btn-done').style.display = 'flex';
+        function showNameModal() {
+            document.getElementById('modal-name').style.display = 'flex';
+        }
+
+        // TRANSISI BACKGROUND (View 2 ke View 3)
+        function submitPhotoAndProceed() {
+            const userName = document.getElementById('photo-name').value.trim();
+            if(!userName) return alert("Isi nama dulu ya!");
+
+            // 1. Auto-fill nama di halaman buku tamu
+            document.getElementById('gb-name').value = userName;
+            
+            // 2. Upload foto berjalan secara "gaib" (di latar belakang)
+            fetch(GAS_WEB_APP_URL, {
+                method: 'POST',
+                body: JSON.stringify({ type: "photo", folderId: folderId, userName: userName, images: capturedImages }),
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+            }).catch(e => console.error("Upload foto error", e));
+
+            // 3. Matikan kamera dan langsung lompat ke View 3 tanpa loading
+            if(video.srcObject) video.srcObject.getTracks().forEach(t => t.stop());
+            document.getElementById('modal-name').style.display = 'none';
+            showView('view-3');
+            loadComments();
+        }
+
+        // LOGIKA GUESTBOOK (View 3)
+        async function loadComments() {
+            if(!sheetId) return;
+            try {
+                let res = await fetch(`${GAS_WEB_APP_URL}?action=getComments&sheetId=${sheetId}`);
+                let json = await res.json();
+                let box = document.getElementById('comments-box');
+                box.innerHTML = "";
+                
+                if(json.data && json.data.length > 0) {
+                    json.data.reverse().forEach(c => {
+                        box.innerHTML += `<div class="comment-item"><div class="comment-name">${c.name}</div><div>${c.message}</div><span class="comment-date">${new Date(c.timestamp).toLocaleDateString('id-ID')}</span></div>`;
+                    });
+                } else {
+                    box.innerHTML = `<div style="text-align:center; opacity:0.6; font-size:12px; margin-top:30px;">Belum ada ucapan. Jadilah yang pertama!</div>`;
+                }
+            } catch (e) {
+                document.getElementById('comments-box').innerHTML = `<div style="text-align:center; opacity:0.6; font-size:12px;">Gagal memuat ucapan.</div>`;
             }
-        });
+        }
 
-        document.getElementById('btn-done').addEventListener('click', () => {
-            document.getElementById('modal').style.display = 'flex';
-        });
+        async function sendComment() {
+            const name = document.getElementById('gb-name').value;
+            const message = document.getElementById('gb-message').value.trim();
+            if(!message) return alert("Ucapannya jangan dikosongi ya!");
 
-        document.getElementById('btn-submit').addEventListener('click', async () => {
-            let userName = document.getElementById('user-name').value.trim();
-            if (!userName) return alert("Namanya harus diisi!");
-            if (!mainFolderId) mainFolderId = prompt("Masukkan ID Folder Drive tujuan:");
-
-            document.getElementById('input-box').style.display = 'none';
-            document.getElementById('loading-text').style.display = 'block';
+            const btn = document.getElementById('btn-send-comment');
+            btn.innerText = "Mengirim..."; btn.disabled = true;
 
             try {
-                let response = await fetch(GAS_WEB_APP_URL, {
+                await fetch(GAS_WEB_APP_URL, {
                     method: 'POST',
-                    body: JSON.stringify({ mainFolderId: mainFolderId, userName: userName, images: capturedImages }),
+                    body: JSON.stringify({ type: "comment", sheetId: sheetId, userName: name, message: message }),
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' }
                 });
-
-                let result = await response.json();
-                
-                if (result.status === "sukses") {
-                    alert("Berhasil! Foto telah dikirim ke folder " + result.folder);
-                    location.reload();
-                } else {
-                    alert("Gagal: " + result.error);
-                }
-            } catch (err) {
-                alert("Koneksi bermasalah.");
+                showView('view-4'); // Lompat ke halaman terima kasih
+            } catch (e) {
+                alert("Gagal mengirim ucapan.");
+                btn.innerText = "Kirim Ucapan"; btn.disabled = false;
             }
-        });
-
-        window.onload = () => startCamera(currentFacingMode);
+        }
     </script>
 </body>
 </html>
