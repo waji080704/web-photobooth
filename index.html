@@ -11,6 +11,7 @@
             --cream-dark: #EFEADD;
             --green: #1A3325;
             --gold: #C5A059;
+            --flower-red: #8B3A3A;
         }
         body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; font-family: 'Poppins', sans-serif; color: var(--green); background-color: var(--cream); }
         
@@ -18,15 +19,15 @@
         .jawa-bg { background: linear-gradient(180deg, var(--cream) 0%, var(--cream-dark) 100%); position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; transition: opacity 0.5s; pointer-events: none; }
         
         /* 1. Motif Batik Kawung */
-        .batik-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.05; background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='0' cy='0' r='25' fill='none' stroke='%231A3325' stroke-width='2'/%3E%3Ccircle cx='60' cy='0' r='25' fill='none' stroke='%231A3325' stroke-width='2'/%3E%3Ccircle cx='0' cy='60' r='25' fill='none' stroke='%231A3325' stroke-width='2'/%3E%3Ccircle cx='60' cy='60' r='25' fill='none' stroke='%231A3325' stroke-width='2'/%3E%3Ccircle cx='30' cy='30' r='25' fill='none' stroke='%231A3325' stroke-width='2'/%3E%3C/svg%3E"); }
+        .batik-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.04; background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='0' cy='0' r='25' fill='none' stroke='%231A3325' stroke-width='2'/%3E%3Ccircle cx='60' cy='0' r='25' fill='none' stroke='%231A3325' stroke-width='2'/%3E%3Ccircle cx='0' cy='60' r='25' fill='none' stroke='%231A3325' stroke-width='2'/%3E%3Ccircle cx='60' cy='60' r='25' fill='none' stroke='%231A3325' stroke-width='2'/%3E%3Ccircle cx='30' cy='30' r='25' fill='none' stroke='%231A3325' stroke-width='2'/%3E%3C/svg%3E"); }
         
         /* 2. Ornamen Bunga Sudut */
-        .flower-tl { position: absolute; top: -20px; left: -20px; width: 180px; opacity: 0.8; }
-        .flower-br { position: absolute; bottom: -20px; right: -20px; width: 180px; opacity: 0.8; transform: rotate(180deg); }
+        .flower-tl { position: absolute; top: -10px; left: -10px; width: 220px; opacity: 0.95; z-index: 2; }
+        .flower-br { position: absolute; bottom: -10px; right: -10px; width: 220px; opacity: 0.95; transform: rotate(180deg); z-index: 2; }
         
         /* 3. Siluet Gunungan & Joglo */
-        .gunungan-bg { position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); width: 120vw; max-width: 500px; opacity: 0.06; }
-        .joglo-bg { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 100vw; max-width: 600px; opacity: 0.12; }
+        .gunungan-bg { position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%); width: 140vw; max-width: 450px; opacity: 0.8; z-index: 1; }
+        .joglo-bg { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 120vw; max-width: 600px; opacity: 0.15; z-index: 1; }
 
         .view { display: none; width: 100%; height: 100%; flex-direction: column; justify-content: center; align-items: center; position: absolute; top: 0; left: 0; text-align: center; box-sizing: border-box; padding: 20px; animation: fadeIn 0.6s ease-out; z-index: 10; }
         .active-view { display: flex; }
@@ -34,10 +35,10 @@
 
         /* Typography & Buttons */
         .title-pre { font-family: 'Playfair Display', serif; font-style: italic; font-size: 20px; color: var(--gold); margin-bottom: 5px; }
-        .title-names { font-family: 'Playfair Display', serif; font-size: 42px; font-weight: bold; margin: 0; color: var(--green); line-height: 1.2; }
+        .title-names { font-family: 'Playfair Display', serif; font-size: 42px; font-weight: bold; margin: 0; color: var(--green); line-height: 1.2; text-shadow: 1px 1px 2px rgba(253, 251, 247, 0.8); }
         .title-date { font-size: 15px; letter-spacing: 4px; margin-top: 15px; margin-bottom: 45px; color: var(--green); font-weight: 600; }
         
-        .btn-main { background: var(--green); color: var(--cream); border: 1px solid var(--gold); padding: 12px 40px; border-radius: 30px; font-size: 16px; font-weight: 600; font-family: 'Poppins', sans-serif; cursor: pointer; box-shadow: 0 4px 15px rgba(26,51,37,0.3); transition: transform 0.2s; letter-spacing: 1px; }
+        .btn-main { background: var(--green); color: var(--cream); border: 1px solid var(--gold); padding: 12px 40px; border-radius: 30px; font-size: 16px; font-weight: 600; font-family: 'Poppins', sans-serif; cursor: pointer; box-shadow: 0 4px 15px rgba(26,51,37,0.3); transition: transform 0.2s; letter-spacing: 1px; z-index: 15; position: relative; }
         .btn-main:active { transform: scale(0.95); }
 
         /* View 2: Camera */
@@ -63,11 +64,12 @@
         .check-icon { position: absolute; top: 5px; right: 5px; background: var(--green); color: var(--cream); border-radius: 50%; width: 22px; height: 22px; display: flex; justify-content: center; align-items: center; font-size: 12px; font-weight: bold; border: 1px solid var(--gold); }
 
         /* View 3: Guestbook */
-        .gb-title { font-family: 'Playfair Display', serif; font-size: 32px; color: var(--green); margin-bottom: 5px; }
-        .gb-input, .gb-textarea { width: 100%; max-width: 340px; padding: 14px; margin-bottom: 15px; border: 1px solid var(--green); border-radius: 8px; font-size: 14px; background: rgba(255,255,255,0.5); color: var(--green); font-family: 'Poppins', sans-serif; box-sizing: border-box; backdrop-filter: blur(5px); outline: none; }
+        .gb-title { font-family: 'Playfair Display', serif; font-size: 32px; color: var(--green); margin-bottom: 5px; position: relative; z-index: 15; }
+        .gb-subtitle { font-size: 13px; opacity: 0.8; margin-bottom: 20px; position: relative; z-index: 15; }
+        .gb-input, .gb-textarea { position: relative; z-index: 15; width: 100%; max-width: 340px; padding: 14px; margin-bottom: 15px; border: 1px solid var(--green); border-radius: 8px; font-size: 14px; background: rgba(253, 251, 247, 0.75); color: var(--green); font-family: 'Poppins', sans-serif; box-sizing: border-box; backdrop-filter: blur(5px); outline: none; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         .gb-textarea { resize: none; height: 90px; }
-        .comments-container { width: 100%; max-width: 340px; height: 220px; background: rgba(255,255,255,0.4); border-radius: 10px; border: 1px solid rgba(26,51,37,0.2); overflow-y: auto; margin-top: 15px; padding: 12px; text-align: left; box-sizing: border-box; }
-        .comment-item { background: rgba(255,255,255,0.6); padding: 12px; border-radius: 8px; margin-bottom: 12px; font-size: 13px; border-left: 3px solid var(--gold); }
+        .comments-container { position: relative; z-index: 15; width: 100%; max-width: 340px; height: 220px; background: rgba(253, 251, 247, 0.6); border-radius: 10px; border: 1px solid rgba(26,51,37,0.2); overflow-y: auto; margin-top: 15px; padding: 12px; text-align: left; box-sizing: border-box; backdrop-filter: blur(5px); }
+        .comment-item { background: rgba(255,255,255,0.8); padding: 12px; border-radius: 8px; margin-bottom: 12px; font-size: 13px; border-left: 3px solid var(--gold); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .comment-name { font-weight: 600; color: var(--green); margin-bottom: 4px; font-size: 14px; }
         .comment-date { font-size: 11px; opacity: 0.6; display: block; margin-top: 5px; font-style: italic; }
 
@@ -76,8 +78,8 @@
         .cp-title { font-family: 'Playfair Display', serif; font-size: 42px; color: var(--green); margin-bottom: 5px; font-weight: bold; }
         .cp-vendor { font-size: 16px; letter-spacing: 3px; margin-bottom: 20px; opacity: 0.8; }
         
-        .footer-wa { position: absolute; bottom: 25px; left: 0; width: 100%; display: flex; flex-direction: column; align-items: center; }
-        .footer-text { font-size: 12px; opacity: 0.6; margin-bottom: 8px; }
+        .footer-wa { position: absolute; bottom: 25px; left: 0; width: 100%; display: flex; flex-direction: column; align-items: center; z-index: 15; }
+        .footer-text { font-size: 12px; opacity: 0.6; margin-bottom: 8px; font-weight: bold; }
         .wa-icon { background: #25D366; width: 45px; height: 45px; border-radius: 50%; display: flex; justify-content: center; align-items: center; text-decoration: none; box-shadow: 0 4px 10px rgba(37,211,102,0.3); border: 2px solid white; transition: transform 0.2s; }
         .wa-icon:active { transform: scale(0.9); }
         .wa-icon svg { width: 24px; height: 24px; fill: white; }
@@ -89,25 +91,39 @@
     <div class="jawa-bg" id="bg-jawa">
         <div class="batik-overlay"></div>
         
-        <!-- Bunga Sudut Kiri Atas & Kanan Bawah -->
-        <svg class="flower-tl" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0,0 L100,0 C80,30 40,50 0,60 Z" fill="#1A3325" opacity="0.1"/>
-            <path d="M10,10 C30,5 50,30 20,40 C5,50 -5,25 10,10 Z" fill="#1A3325" opacity="0.8"/>
-            <path d="M30,15 C55,10 65,40 40,50 C20,60 10,35 30,15 Z" fill="#C5A059" opacity="0.9"/>
-            <circle cx="25" cy="25" r="4" fill="#FDFBF7"/>
+        <!-- Ornamen Bunga Sudut Kiri Atas & Kanan Bawah -->
+        <svg class="flower-tl" viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,0 L250,0 C200,80 100,120 0,150 Z" fill="#1A3325" opacity="0.05"/>
+            <!-- Daun -->
+            <path d="M-20,-20 Q80,-10 120,60 Q50,80 -20,-20 Z" fill="#1A3325" opacity="0.85"/>
+            <path d="M-20,-20 Q-10,80 60,120 Q80,50 -20,-20 Z" fill="#1A3325" opacity="0.75"/>
+            <path d="M40,20 Q120,30 140,90 Q90,110 40,20 Z" fill="#C5A059" opacity="0.85"/>
+            <!-- Bunga Anggrek / Peony -->
+            <circle cx="55" cy="55" r="28" fill="#8B3A3A" opacity="0.95"/>
+            <circle cx="30" cy="85" r="22" fill="#a04747" opacity="0.9"/>
+            <circle cx="90" cy="40" r="18" fill="#C5A059" opacity="0.95"/>
+            <circle cx="55" cy="55" r="8" fill="#FDFBF7"/>
         </svg>
-        <svg class="flower-br" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0,0 L100,0 C80,30 40,50 0,60 Z" fill="#1A3325" opacity="0.1"/>
-            <path d="M10,10 C30,5 50,30 20,40 C5,50 -5,25 10,10 Z" fill="#1A3325" opacity="0.8"/>
-            <path d="M30,15 C55,10 65,40 40,50 C20,60 10,35 30,15 Z" fill="#C5A059" opacity="0.9"/>
-            <circle cx="25" cy="25" r="4" fill="#FDFBF7"/>
+
+        <svg class="flower-br" viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,0 L250,0 C200,80 100,120 0,150 Z" fill="#1A3325" opacity="0.05"/>
+            <path d="M-20,-20 Q80,-10 120,60 Q50,80 -20,-20 Z" fill="#1A3325" opacity="0.85"/>
+            <path d="M-20,-20 Q-10,80 60,120 Q80,50 -20,-20 Z" fill="#1A3325" opacity="0.75"/>
+            <path d="M40,20 Q120,30 140,90 Q90,110 40,20 Z" fill="#C5A059" opacity="0.85"/>
+            <circle cx="55" cy="55" r="28" fill="#8B3A3A" opacity="0.95"/>
+            <circle cx="30" cy="85" r="22" fill="#a04747" opacity="0.9"/>
+            <circle cx="90" cy="40" r="18" fill="#C5A059" opacity="0.95"/>
+            <circle cx="55" cy="55" r="8" fill="#FDFBF7"/>
         </svg>
 
         <!-- Siluet Gunungan -->
         <svg class="gunungan-bg" viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg">
-            <path d="M100 10 C140 80 190 180 190 280 C190 290 180 300 100 300 C20 300 10 290 10 280 C10 180 60 80 100 10 Z" fill="none" stroke="#1A3325" stroke-width="2"/>
-            <path d="M100 30 C130 90 170 180 170 270 C170 280 160 285 100 285 C40 285 30 280 30 270 C30 180 70 90 100 30 Z" fill="none" stroke="#1A3325" stroke-width="1.5" stroke-dasharray="6,4"/>
-            <path d="M100 285 L100 50 M60 270 C80 200 120 200 140 270 M70 200 C85 140 115 140 130 200" stroke="#1A3325" fill="none" stroke-width="1.5"/>
+            <!-- Outline Tegas -->
+            <path d="M100,0 C150,80 190,180 175,300 L25,300 C10,180 50,80 100,0 Z" fill="rgba(197, 160, 89, 0.08)" stroke="rgba(26, 51, 37, 0.4)" stroke-width="2"/>
+            <!-- Inner Motif -->
+            <path d="M100,25 C140,95 170,185 155,300 L45,300 C30,185 60,95 100,25 Z" fill="none" stroke="rgba(26, 51, 37, 0.3)" stroke-width="1.5" stroke-dasharray="6,4"/>
+            <circle cx="100" cy="180" r="25" fill="none" stroke="rgba(197, 160, 89, 0.5)" stroke-width="2"/>
+            <path d="M100,205 L100,300 M75,300 L75,220 C75,200 125,200 125,220 L125,300" stroke="rgba(26, 51, 37, 0.3)" fill="none" stroke-width="1.5"/>
         </svg>
 
         <!-- Siluet Rumah Joglo -->
@@ -127,7 +143,7 @@
         <div class="title-pre">The Wedding Of</div>
         <h1 class="title-names">Maghfiroh<br>& Eko</h1>
         <div class="title-date">12.09.2026</div>
-        <button class="btn-main" onclick="openCamera()">Ambil Foto</button>
+        <button class="btn-main" onclick="openCamera()">Take Photo</button>
     </div>
 
     <!-- VIEW 2: CAMERA -->
@@ -149,7 +165,7 @@
     <!-- VIEW 2.5: GALLERY SELECTION -->
     <div id="view-select" class="view">
         <div class="gb-title">Pilih Foto</div>
-        <div style="font-size:13px; opacity:0.8; margin-bottom:15px;">Ketuk foto yang tidak ingin dikirim</div>
+        <div class="gb-subtitle">Ketuk foto yang tidak ingin dikirim</div>
         <div class="gallery-grid" id="gallery-container"></div>
         <button class="btn-main" style="width:100%; max-width:300px;" onclick="confirmSelection()">Konfirmasi Pilihan</button>
     </div>
@@ -167,7 +183,7 @@
     <!-- VIEW 3: GUESTBOOK -->
     <div id="view-3" class="view">
         <div class="gb-title">Ucapkan Sesuatu</div>
-        <div style="font-size:13px; opacity:0.8; margin-bottom:20px;">Berikan Ucapan & Doa Restu</div>
+        <div class="gb-subtitle">Berikan Ucapan & Doa Restu</div>
         <input type="text" id="gb-name" class="gb-input" placeholder="Nama Anda" readonly>
         <textarea id="gb-message" class="gb-textarea" placeholder="Tulis doa dan ucapan disini..." required></textarea>
         <button class="btn-main" id="btn-send-comment" style="width:100%; max-width:340px;" onclick="sendComment()">Kirim Ucapan</button>
@@ -205,6 +221,9 @@
         let selectedIndices = new Set();
         const MAX_PHOTOS = 18;
 
+        let isCommentsLoaded = false;
+        let cachedCommentsHTML = "";
+
         const urlParams = new URLSearchParams(window.location.search);
         const folderId = urlParams.get('folderId'); 
         const sheetId = urlParams.get('sheetId');
@@ -230,6 +249,7 @@
 
         async function openCamera() {
             showView('view-2');
+            isCommentsLoaded = false; // Reset status load
             let constraints = { video: { facingMode: currentFacingMode, width: { ideal: 1280 }, height: { ideal: 720 } }, audio: false };
             try {
                 video.srcObject = await navigator.mediaDevices.getUserMedia(constraints);
@@ -257,10 +277,33 @@
             if (capturedImages.length > 0) document.getElementById('btn-done').style.display = 'flex';
         }
 
-        // FITUR BARU: BUKA GALERI SELEKSI
+        // TUGAS BACKGROUND: Tarik data ucapan LEBIH AWAL
+        async function prefetchComments() {
+            if(!sheetId || isCommentsLoaded) return;
+            try {
+                let res = await fetch(`${GAS_WEB_APP_URL}?action=getComments&sheetId=${sheetId}`);
+                let json = await res.json();
+                
+                if(json.data && json.data.length > 0) {
+                    cachedCommentsHTML = "";
+                    json.data.reverse().forEach(c => {
+                        cachedCommentsHTML += `<div class="comment-item"><div class="comment-name">${c.name}</div><div style="color:var(--green);">${c.message}</div><span class="comment-date">${new Date(c.timestamp).toLocaleDateString('id-ID')}</span></div>`;
+                    });
+                } else {
+                    cachedCommentsHTML = `<div style="text-align:center; opacity:0.6; font-size:12px; margin-top:30px;">Belum ada ucapan. Jadilah yang pertama!</div>`;
+                }
+                isCommentsLoaded = true;
+            } catch (e) {
+                cachedCommentsHTML = `<div style="text-align:center; opacity:0.6; font-size:12px;">Gagal memuat ucapan.</div>`;
+            }
+        }
+
         function openGallerySelection() {
             if(capturedImages.length === 0) return;
-            if(video.srcObject) video.srcObject.getTracks().forEach(t => t.stop()); // Matikan kamera agar ringan
+            if(video.srcObject) video.srcObject.getTracks().forEach(t => t.stop());
+            
+            // Diam-diam muat ucapan saat user sibuk pilih foto
+            prefetchComments(); 
             
             showView('view-select');
             const gallery = document.getElementById('gallery-container');
@@ -268,7 +311,7 @@
             selectedIndices.clear();
 
             capturedImages.forEach((imgSrc, index) => {
-                selectedIndices.add(index); // Default semua terpilih
+                selectedIndices.add(index);
                 
                 const box = document.createElement('div');
                 box.className = 'img-wrap';
@@ -293,7 +336,6 @@
                         check.style.display = 'flex';
                     }
                 };
-                
                 box.appendChild(img);
                 box.appendChild(check);
                 gallery.appendChild(box);
@@ -303,7 +345,6 @@
         function confirmSelection() {
             if(selectedIndices.size === 0) return alert("Pilih minimal 1 foto untuk dikirim!");
             
-            // Filter foto hanya yang dicentang
             let finalImages = [];
             selectedIndices.forEach(i => finalImages.push(capturedImages[i]));
             capturedImages = finalImages; 
@@ -318,38 +359,33 @@
             document.getElementById('gb-name').value = userName;
             document.getElementById('modal-name').style.display = 'none';
             
-            // Upload Background Gaib
             fetch(GAS_WEB_APP_URL, {
                 method: 'POST',
                 body: JSON.stringify({ type: "photo", folderId: folderId, userName: userName, images: capturedImages }),
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' }
-            }).catch(e => console.error("Upload foto error", e));
+            }).catch(e => console.error(e));
 
             showView('view-3');
             loadComments();
         }
 
-        async function loadComments() {
-            if(!sheetId) return;
-            try {
-                let res = await fetch(`${GAS_WEB_APP_URL}?action=getComments&sheetId=${sheetId}`);
-                let json = await res.json();
-                let box = document.getElementById('comments-box');
-                box.innerHTML = "";
-                
-                if(json.data && json.data.length > 0) {
-                    json.data.reverse().forEach(c => {
-                        box.innerHTML += `<div class="comment-item"><div class="comment-name">${c.name}</div><div style="color:var(--green);">${c.message}</div><span class="comment-date">${new Date(c.timestamp).toLocaleDateString('id-ID')}</span></div>`;
-                    });
-                } else {
-                    box.innerHTML = `<div style="text-align:center; opacity:0.6; font-size:12px; margin-top:30px;">Belum ada ucapan. Jadilah yang pertama!</div>`;
-                }
-            } catch (e) {
-                document.getElementById('comments-box').innerHTML = `<div style="text-align:center; opacity:0.6; font-size:12px;">Gagal memuat ucapan.</div>`;
+        function loadComments() {
+            let box = document.getElementById('comments-box');
+            if(isCommentsLoaded) {
+                // Instan karena sudah dimuat sebelumnya
+                box.innerHTML = cachedCommentsHTML;
+            } else {
+                box.innerHTML = `<div style="text-align:center; opacity:0.6; font-size:12px; margin-top:30px;">Memuat ucapan...</div>`;
+                let checkInterval = setInterval(() => {
+                    if(isCommentsLoaded) {
+                        box.innerHTML = cachedCommentsHTML;
+                        clearInterval(checkInterval);
+                    }
+                }, 500);
             }
         }
 
-        async function sendComment() {
+        function sendComment() {
             const name = document.getElementById('gb-name').value;
             const message = document.getElementById('gb-message').value.trim();
             if(!message) return alert("Ucapannya jangan dikosongi ya!");
@@ -357,24 +393,18 @@
             const btn = document.getElementById('btn-send-comment');
             btn.innerText = "Mengirim..."; btn.disabled = true;
 
-            try {
-                let res = await fetch(GAS_WEB_APP_URL, {
-                    method: 'POST',
-                    body: JSON.stringify({ type: "comment", sheetId: sheetId, userName: name, message: message }),
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' }
-                });
-                let result = await res.json();
-                
-                if (result.status === "sukses") {
-                    showView('view-4');
-                } else {
-                    alert("Gagal menyimpan ke Sheet. Detail: " + result.error);
-                    btn.innerText = "Kirim Ucapan"; btn.disabled = false;
-                }
-            } catch (e) {
-                alert("Gagal menghubungi server. Pastikan internet lancar.");
+            // Proses kirim di latar belakang tanpa disuruh menunggu (Asynchronous)
+            fetch(GAS_WEB_APP_URL, {
+                method: 'POST',
+                body: JSON.stringify({ type: "comment", sheetId: sheetId, userName: name, message: message }),
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+            }).catch(e => console.error(e));
+
+            // Efek transisi langsung pindah (bebas lag/lemot)
+            setTimeout(() => {
+                showView('view-4');
                 btn.innerText = "Kirim Ucapan"; btn.disabled = false;
-            }
+            }, 600);
         }
     </script>
 </body>
