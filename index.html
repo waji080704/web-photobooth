@@ -8,37 +8,41 @@
     <style>
         :root {
             --cream: #FDFBF7;
-            --cream-dark: #EFEADD;
-            --green: #1A3325;
+            --cream-dark: #E9E1D3;
+            --green: #152B1E;
+            --green-light: #2A4D38;
             --gold: #C5A059;
-            --flower-red: #8B3A3A;
+            --gold-light: #E8D091;
+            --red: #722626;
+            --red-dark: #4A1515;
         }
         body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; font-family: 'Poppins', sans-serif; color: var(--green); background-color: var(--cream); }
         
-        /* TEMA ADAT JAWA - Krem & Hijau Tua */
-        .jawa-bg { background: linear-gradient(180deg, var(--cream) 0%, var(--cream-dark) 100%); position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; transition: opacity 0.5s; pointer-events: none; }
+        /* TEMA ADAT JAWA PREMIUM */
+        .jawa-bg { background: radial-gradient(circle at center, var(--cream) 0%, var(--cream-dark) 100%); position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; transition: opacity 0.5s; pointer-events: none; }
         
-        /* 1. Motif Batik Kawung */
-        .batik-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.04; background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='0' cy='0' r='25' fill='none' stroke='%231A3325' stroke-width='2'/%3E%3Ccircle cx='60' cy='0' r='25' fill='none' stroke='%231A3325' stroke-width='2'/%3E%3Ccircle cx='0' cy='60' r='25' fill='none' stroke='%231A3325' stroke-width='2'/%3E%3Ccircle cx='60' cy='60' r='25' fill='none' stroke='%231A3325' stroke-width='2'/%3E%3Ccircle cx='30' cy='30' r='25' fill='none' stroke='%231A3325' stroke-width='2'/%3E%3C/svg%3E"); }
+        /* Motif Batik Kawung Halus */
+        .batik-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.05; background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M40 0 C60 0 80 20 80 40 C80 60 60 80 40 80 C20 80 0 60 0 40 C0 20 20 0 40 0 Z M40 10 C25 10 10 25 10 40 C10 55 25 70 40 70 C55 70 70 55 70 40 C70 25 55 10 40 10 Z' fill='%23152B1E'/%3E%3C/svg%3E"); }
         
-        /* 2. Ornamen Bunga Sudut */
-        .flower-tl { position: absolute; top: -10px; left: -10px; width: 220px; opacity: 0.95; z-index: 2; }
-        .flower-br { position: absolute; bottom: -10px; right: -10px; width: 220px; opacity: 0.95; transform: rotate(180deg); z-index: 2; }
+        /* Posisi Bunga Premium */
+        .floral-tr { position: absolute; top: -20px; right: -20px; width: 350px; height: 500px; z-index: 3; }
+        .floral-ml { position: absolute; top: 30%; left: -30px; width: 250px; height: 400px; z-index: 3; }
+        .floral-bottom { position: absolute; bottom: -10px; left: 0; width: 100%; height: 250px; z-index: 4; }
         
-        /* 3. Siluet Gunungan & Joglo */
-        .gunungan-bg { position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%); width: 140vw; max-width: 450px; opacity: 0.8; z-index: 1; }
-        .joglo-bg { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 120vw; max-width: 600px; opacity: 0.15; z-index: 1; }
+        /* Siluet Gunungan & Joglo Detail */
+        .gunungan-bg { position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); width: 120vw; max-width: 550px; opacity: 0.15; z-index: 1; }
+        .joglo-bg { position: absolute; bottom: 120px; left: 50%; transform: translateX(-50%); width: 110vw; max-width: 500px; opacity: 0.25; z-index: 2; }
 
         .view { display: none; width: 100%; height: 100%; flex-direction: column; justify-content: center; align-items: center; position: absolute; top: 0; left: 0; text-align: center; box-sizing: border-box; padding: 20px; animation: fadeIn 0.6s ease-out; z-index: 10; }
         .active-view { display: flex; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
         /* Typography & Buttons */
         .title-pre { font-family: 'Playfair Display', serif; font-style: italic; font-size: 20px; color: var(--gold); margin-bottom: 5px; }
-        .title-names { font-family: 'Playfair Display', serif; font-size: 42px; font-weight: bold; margin: 0; color: var(--green); line-height: 1.2; text-shadow: 1px 1px 2px rgba(253, 251, 247, 0.8); }
-        .title-date { font-size: 15px; letter-spacing: 4px; margin-top: 15px; margin-bottom: 45px; color: var(--green); font-weight: 600; }
+        .title-names { font-family: 'Playfair Display', serif; font-size: 44px; font-weight: bold; margin: 0; color: var(--green); line-height: 1.1; text-shadow: 2px 2px 5px rgba(253, 251, 247, 0.9); }
+        .title-date { font-size: 15px; letter-spacing: 5px; margin-top: 15px; margin-bottom: 45px; color: var(--green); font-weight: 600; }
         
-        .btn-main { background: var(--green); color: var(--cream); border: 1px solid var(--gold); padding: 12px 40px; border-radius: 30px; font-size: 16px; font-weight: 600; font-family: 'Poppins', sans-serif; cursor: pointer; box-shadow: 0 4px 15px rgba(26,51,37,0.3); transition: transform 0.2s; letter-spacing: 1px; z-index: 15; position: relative; }
+        .btn-main { background: var(--green); color: var(--cream); border: 2px solid var(--gold); padding: 12px 45px; border-radius: 30px; font-size: 16px; font-weight: 600; font-family: 'Poppins', sans-serif; cursor: pointer; box-shadow: 0 8px 20px rgba(21,43,30,0.3); transition: transform 0.2s; letter-spacing: 1px; z-index: 15; position: relative; }
         .btn-main:active { transform: scale(0.95); }
 
         /* View 2: Camera */
@@ -53,8 +57,8 @@
         .btn-shutter::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--cream); width: 60px; height: 60px; border-radius: 50%; }
         
         /* Modal Global */
-        .modal { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 40; justify-content: center; align-items: center; flex-direction: column; backdrop-filter: blur(3px); }
-        .modal-box { background: var(--cream); padding: 30px 25px; border-radius: 15px; width: 85%; max-width: 320px; border: 2px solid var(--green); text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .modal { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 40; justify-content: center; align-items: center; flex-direction: column; backdrop-filter: blur(5px); }
+        .modal-box { background: var(--cream); padding: 30px 25px; border-radius: 15px; width: 85%; max-width: 320px; border: 2px solid var(--gold); text-align: center; box-shadow: 0 15px 40px rgba(0,0,0,0.4); }
         .modal-box input { width: 100%; padding: 12px; margin: 20px 0; border: 1px solid var(--green); border-radius: 8px; font-size: 16px; text-align: center; font-family: 'Poppins', sans-serif; background: transparent; color: var(--green); box-sizing: border-box; outline: none; }
         
         /* View 2.5: Gallery Selection */
@@ -64,77 +68,156 @@
         .check-icon { position: absolute; top: 5px; right: 5px; background: var(--green); color: var(--cream); border-radius: 50%; width: 22px; height: 22px; display: flex; justify-content: center; align-items: center; font-size: 12px; font-weight: bold; border: 1px solid var(--gold); }
 
         /* View 3: Guestbook */
-        .gb-title { font-family: 'Playfair Display', serif; font-size: 32px; color: var(--green); margin-bottom: 5px; position: relative; z-index: 15; }
-        .gb-subtitle { font-size: 13px; opacity: 0.8; margin-bottom: 20px; position: relative; z-index: 15; }
-        .gb-input, .gb-textarea { position: relative; z-index: 15; width: 100%; max-width: 340px; padding: 14px; margin-bottom: 15px; border: 1px solid var(--green); border-radius: 8px; font-size: 14px; background: rgba(253, 251, 247, 0.75); color: var(--green); font-family: 'Poppins', sans-serif; box-sizing: border-box; backdrop-filter: blur(5px); outline: none; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .gb-title { font-family: 'Playfair Display', serif; font-size: 34px; color: var(--green); margin-bottom: 5px; position: relative; z-index: 15; text-shadow: 2px 2px 4px rgba(253, 251, 247, 0.9); }
+        .gb-subtitle { font-size: 13px; opacity: 0.9; margin-bottom: 20px; position: relative; z-index: 15; font-weight: 600; }
+        .gb-input, .gb-textarea { position: relative; z-index: 15; width: 100%; max-width: 340px; padding: 14px; margin-bottom: 15px; border: 1px solid var(--green); border-radius: 8px; font-size: 14px; background: rgba(253, 251, 247, 0.85); color: var(--green); font-family: 'Poppins', sans-serif; box-sizing: border-box; backdrop-filter: blur(5px); outline: none; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         .gb-textarea { resize: none; height: 90px; }
-        .comments-container { position: relative; z-index: 15; width: 100%; max-width: 340px; height: 220px; background: rgba(253, 251, 247, 0.6); border-radius: 10px; border: 1px solid rgba(26,51,37,0.2); overflow-y: auto; margin-top: 15px; padding: 12px; text-align: left; box-sizing: border-box; backdrop-filter: blur(5px); }
-        .comment-item { background: rgba(255,255,255,0.8); padding: 12px; border-radius: 8px; margin-bottom: 12px; font-size: 13px; border-left: 3px solid var(--gold); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .comment-name { font-weight: 600; color: var(--green); margin-bottom: 4px; font-size: 14px; }
+        .comments-container { position: relative; z-index: 15; width: 100%; max-width: 340px; height: 220px; background: rgba(253, 251, 247, 0.7); border-radius: 10px; border: 1px solid rgba(21,43,30,0.3); overflow-y: auto; margin-top: 15px; padding: 12px; text-align: left; box-sizing: border-box; backdrop-filter: blur(8px); }
+        .comment-item { background: rgba(255,255,255,0.9); padding: 12px; border-radius: 8px; margin-bottom: 12px; font-size: 13px; border-left: 4px solid var(--gold); box-shadow: 0 3px 8px rgba(0,0,0,0.05); }
+        .comment-name { font-weight: bold; color: var(--green); margin-bottom: 4px; font-size: 14px; }
         .comment-date { font-size: 11px; opacity: 0.6; display: block; margin-top: 5px; font-style: italic; }
 
         /* View 4: Company Profile */
-        .cp-quote { font-family: 'Playfair Display', serif; font-style: italic; font-size: 20px; color: var(--gold); margin-bottom: 10px; }
-        .cp-title { font-family: 'Playfair Display', serif; font-size: 42px; color: var(--green); margin-bottom: 5px; font-weight: bold; }
-        .cp-vendor { font-size: 16px; letter-spacing: 3px; margin-bottom: 20px; opacity: 0.8; }
+        .cp-quote { font-family: 'Playfair Display', serif; font-style: italic; font-size: 22px; color: var(--gold); margin-bottom: 10px; text-shadow: 1px 1px 3px rgba(253, 251, 247, 0.9); }
+        .cp-title { font-family: 'Playfair Display', serif; font-size: 46px; color: var(--green); margin-bottom: 5px; font-weight: bold; text-shadow: 2px 2px 4px rgba(253, 251, 247, 0.9); }
+        .cp-vendor { font-size: 16px; letter-spacing: 4px; margin-bottom: 20px; opacity: 0.9; font-weight: 600; }
         
-        .footer-wa { position: absolute; bottom: 25px; left: 0; width: 100%; display: flex; flex-direction: column; align-items: center; z-index: 15; }
-        .footer-text { font-size: 12px; opacity: 0.6; margin-bottom: 8px; font-weight: bold; }
-        .wa-icon { background: #25D366; width: 45px; height: 45px; border-radius: 50%; display: flex; justify-content: center; align-items: center; text-decoration: none; box-shadow: 0 4px 10px rgba(37,211,102,0.3); border: 2px solid white; transition: transform 0.2s; }
+        .footer-wa { position: absolute; bottom: 35px; left: 0; width: 100%; display: flex; flex-direction: column; align-items: center; z-index: 15; }
+        .footer-text { font-size: 13px; opacity: 0.8; margin-bottom: 8px; font-weight: bold; }
+        .wa-icon { background: #25D366; width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; text-decoration: none; box-shadow: 0 6px 15px rgba(37,211,102,0.4); border: 2px solid white; transition: transform 0.2s; }
         .wa-icon:active { transform: scale(0.9); }
-        .wa-icon svg { width: 24px; height: 24px; fill: white; }
+        .wa-icon svg { width: 26px; height: 26px; fill: white; }
     </style>
 </head>
 <body>
+
+    <!-- LIBRARY SVG UNTUK DETAIL TINGGI (Disembunyikan, hanya dipanggil) -->
+    <svg style="display: none;">
+        <defs>
+            <!-- Daun Melengkung Detail -->
+            <g id="leaf-dark">
+                <path d="M0,0 Q30,-20 80,0 Q30,20 0,0 Z" fill="var(--green)"/>
+                <path d="M0,0 Q30,-10 75,0 Q30,10 0,0 Z" fill="var(--green-light)"/>
+                <line x1="0" y1="0" x2="70" y2="0" stroke="var(--cream)" stroke-width="0.5" opacity="0.3"/>
+            </g>
+            <g id="leaf-gold">
+                <path d="M0,0 Q25,-15 60,0 Q25,15 0,0 Z" fill="var(--gold)"/>
+                <path d="M0,0 Q25,-5 55,0 Q25,5 0,0 Z" fill="var(--gold-light)"/>
+            </g>
+            <!-- Bunga Peony Detail -->
+            <g id="peony">
+                <path d="M0,-30 C20,-30 30,-10 0,0 C-30,-10 -20,-30 0,-30 Z" fill="var(--red-dark)"/>
+                <path d="M30,0 C30,-20 10,-30 0,0 C10,30 30,20 30,0 Z" fill="var(--red)"/>
+                <path d="M0,30 C-20,30 -30,10 0,0 C30,10 20,30 0,30 Z" fill="var(--red-dark)"/>
+                <path d="M-30,0 C-30,20 -10,30 0,0 C-10,-30 -30,-20 -30,0 Z" fill="var(--red)"/>
+                <circle cx="0" cy="0" r="10" fill="var(--gold)"/>
+                <circle cx="0" cy="0" r="5" fill="var(--cream)"/>
+            </g>
+            <!-- Bunga Kecil -->
+            <g id="flower-small">
+                <circle cx="0" cy="-10" r="8" fill="var(--gold-light)"/>
+                <circle cx="10" cy="0" r="8" fill="var(--gold-light)"/>
+                <circle cx="0" cy="10" r="8" fill="var(--gold-light)"/>
+                <circle cx="-10" cy="0" r="8" fill="var(--gold-light)"/>
+                <circle cx="0" cy="0" r="4" fill="var(--green)"/>
+            </g>
+            <!-- Ronce Melati (Jasmine Strings) -->
+            <g id="ronce-melati">
+                <circle cx="0" cy="0" r="4" fill="var(--cream)" stroke="var(--gold)" stroke-width="0.5"/>
+                <circle cx="0" cy="15" r="4" fill="var(--cream)" stroke="var(--gold)" stroke-width="0.5"/>
+                <circle cx="0" cy="30" r="4" fill="var(--cream)" stroke="var(--gold)" stroke-width="0.5"/>
+                <circle cx="0" cy="45" r="4" fill="var(--cream)" stroke="var(--gold)" stroke-width="0.5"/>
+                <circle cx="0" cy="60" r="4" fill="var(--cream)" stroke="var(--gold)" stroke-width="0.5"/>
+                <path d="M-5,70 L5,70 L0,85 Z" fill="var(--red)"/>
+            </g>
+        </defs>
+    </svg>
 
     <!-- BACKGROUND KHAS JAWA -->
     <div class="jawa-bg" id="bg-jawa">
         <div class="batik-overlay"></div>
         
-        <!-- Ornamen Bunga Sudut Kiri Atas & Kanan Bawah -->
-        <svg class="flower-tl" viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0,0 L250,0 C200,80 100,120 0,150 Z" fill="#1A3325" opacity="0.05"/>
-            <!-- Daun -->
-            <path d="M-20,-20 Q80,-10 120,60 Q50,80 -20,-20 Z" fill="#1A3325" opacity="0.85"/>
-            <path d="M-20,-20 Q-10,80 60,120 Q80,50 -20,-20 Z" fill="#1A3325" opacity="0.75"/>
-            <path d="M40,20 Q120,30 140,90 Q90,110 40,20 Z" fill="#C5A059" opacity="0.85"/>
-            <!-- Bunga Anggrek / Peony -->
-            <circle cx="55" cy="55" r="28" fill="#8B3A3A" opacity="0.95"/>
-            <circle cx="30" cy="85" r="22" fill="#a04747" opacity="0.9"/>
-            <circle cx="90" cy="40" r="18" fill="#C5A059" opacity="0.95"/>
-            <circle cx="55" cy="55" r="8" fill="#FDFBF7"/>
-        </svg>
-
-        <svg class="flower-br" viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0,0 L250,0 C200,80 100,120 0,150 Z" fill="#1A3325" opacity="0.05"/>
-            <path d="M-20,-20 Q80,-10 120,60 Q50,80 -20,-20 Z" fill="#1A3325" opacity="0.85"/>
-            <path d="M-20,-20 Q-10,80 60,120 Q80,50 -20,-20 Z" fill="#1A3325" opacity="0.75"/>
-            <path d="M40,20 Q120,30 140,90 Q90,110 40,20 Z" fill="#C5A059" opacity="0.85"/>
-            <circle cx="55" cy="55" r="28" fill="#8B3A3A" opacity="0.95"/>
-            <circle cx="30" cy="85" r="22" fill="#a04747" opacity="0.9"/>
-            <circle cx="90" cy="40" r="18" fill="#C5A059" opacity="0.95"/>
-            <circle cx="55" cy="55" r="8" fill="#FDFBF7"/>
-        </svg>
-
-        <!-- Siluet Gunungan -->
+        <!-- Siluet Gunungan Wayang Berkualitas Tinggi -->
         <svg class="gunungan-bg" viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg">
-            <!-- Outline Tegas -->
-            <path d="M100,0 C150,80 190,180 175,300 L25,300 C10,180 50,80 100,0 Z" fill="rgba(197, 160, 89, 0.08)" stroke="rgba(26, 51, 37, 0.4)" stroke-width="2"/>
-            <!-- Inner Motif -->
-            <path d="M100,25 C140,95 170,185 155,300 L45,300 C30,185 60,95 100,25 Z" fill="none" stroke="rgba(26, 51, 37, 0.3)" stroke-width="1.5" stroke-dasharray="6,4"/>
-            <circle cx="100" cy="180" r="25" fill="none" stroke="rgba(197, 160, 89, 0.5)" stroke-width="2"/>
-            <path d="M100,205 L100,300 M75,300 L75,220 C75,200 125,200 125,220 L125,300" stroke="rgba(26, 51, 37, 0.3)" fill="none" stroke-width="1.5"/>
+            <path d="M100,10 C160,80 190,160 190,290 L10,290 C10,160 40,80 100,10 Z" fill="rgba(197, 160, 89, 0.05)" stroke="var(--green)" stroke-width="3"/>
+            <!-- Pohon Hayat (Tree of Life) -->
+            <path d="M100,290 L100,100 M100,200 Q140,180 160,250 M100,200 Q60,180 40,250 M100,150 Q130,120 140,180 M100,150 Q70,120 60,180" stroke="var(--green)" stroke-width="2" fill="none"/>
+            <!-- Ornamen Makara/Sayap -->
+            <path d="M90,290 L90,260 L60,260 L60,290 Z M110,290 L110,260 L140,260 L140,290 Z" fill="none" stroke="var(--green)" stroke-width="1.5"/>
+            <!-- Pola Ukir Dalam -->
+            <path d="M100,30 C130,90 150,150 150,250 M100,30 C70,90 50,150 50,250" fill="none" stroke="var(--green)" stroke-width="1" stroke-dasharray="4,4"/>
         </svg>
 
-        <!-- Siluet Rumah Joglo -->
-        <svg class="joglo-bg" viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg">
-            <path d="M120 15 L180 15 L200 45 L100 45 Z" fill="#1A3325"/>
-            <path d="M95 50 L205 50 L260 80 L40 80 Z" fill="#1A3325"/>
-            <rect x="110" y="80" width="6" height="20" fill="#1A3325"/>
-            <rect x="184" y="80" width="6" height="20" fill="#1A3325"/>
-            <rect x="60" y="80" width="4" height="20" fill="#1A3325"/>
-            <rect x="236" y="80" width="4" height="20" fill="#1A3325"/>
-            <path d="M10 100 L290 100" stroke="#1A3325" stroke-width="4"/>
+        <!-- Siluet Rumah Joglo Detail -->
+        <svg class="joglo-bg" viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg">
+            <!-- Atap Tajug Lapis 1 -->
+            <path d="M150,10 L190,50 L110,50 Z" fill="var(--green)"/>
+            <!-- Atap Tajug Lapis 2 -->
+            <path d="M110,50 L190,50 L220,80 L80,80 Z" fill="var(--green-light)"/>
+            <!-- Atap Tajug Lapis 3 (Bawah) -->
+            <path d="M80,80 L220,80 L280,110 L20,110 Z" fill="var(--green)"/>
+            <path d="M20,110 L280,110 L280,115 L20,115 Z" fill="var(--gold)"/>
+            <!-- Pilar Saka Guru -->
+            <rect x="70" y="115" width="8" height="35" fill="var(--green)"/>
+            <rect x="130" y="115" width="8" height="35" fill="var(--green)"/>
+            <rect x="162" y="115" width="8" height="35" fill="var(--green)"/>
+            <rect x="222" y="115" width="8" height="35" fill="var(--green)"/>
+            <!-- Pendopo Base -->
+            <path d="M10,150 L290,150 L290,145 L10,145 Z" fill="var(--gold)"/>
+        </svg>
+
+        <!-- BUNGA AREA 1: Kanan Atas sampai Tengah (Juntaian Anggrek & Daun) -->
+        <svg class="floral-tr" viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg">
+            <g transform="translate(180, -20) rotate(135) scale(1.5)"><use href="#leaf-dark"/></g>
+            <g transform="translate(200, 50) rotate(160) scale(1.2)"><use href="#leaf-dark"/></g>
+            <g transform="translate(170, 120) rotate(190) scale(1)"><use href="#leaf-gold"/></g>
+            <g transform="translate(190, 180) rotate(210) scale(1.3)"><use href="#leaf-dark"/></g>
+            
+            <g transform="translate(180, 20) scale(1.2)"><use href="#peony"/></g>
+            <g transform="translate(140, 90) scale(0.8)"><use href="#peony"/></g>
+            <g transform="translate(160, 160) scale(0.6)"><use href="#flower-small"/></g>
+            
+            <!-- Ronce gantung -->
+            <g transform="translate(120, 10) scale(0.8)"><use href="#ronce-melati"/></g>
+            <g transform="translate(170, 210) scale(0.6)"><use href="#ronce-melati"/></g>
+        </svg>
+
+        <!-- BUNGA AREA 2: Kiri Tengah sampai Bawah (Rambatan Daun & Bunga Emas) -->
+        <svg class="floral-ml" viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg">
+            <g transform="translate(-30, 20) rotate(45) scale(1.4)"><use href="#leaf-dark"/></g>
+            <g transform="translate(-10, 100) rotate(15) scale(1.2)"><use href="#leaf-gold"/></g>
+            <g transform="translate(-20, 180) rotate(-10) scale(1.5)"><use href="#leaf-dark"/></g>
+            <g transform="translate(10, 260) rotate(-45) scale(1)"><use href="#leaf-dark"/></g>
+            
+            <g transform="translate(20, 60) scale(0.9)"><use href="#peony"/></g>
+            <g transform="translate(50, 140) scale(0.7)"><use href="#flower-small"/></g>
+            <g transform="translate(30, 220) scale(1)"><use href="#peony"/></g>
+        </svg>
+
+        <!-- BUNGA AREA 3: Bawah Kiri ke Kanan (Karangan Lebat & Ronce Melati Stage) -->
+        <svg class="floral-bottom" viewBox="0 0 400 150" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Background base karangan bunga -->
+            <path d="M0,150 Q100,50 200,100 Q300,50 400,150 Z" fill="var(--green-light)" opacity="0.3"/>
+            
+            <!-- Daun Lebar Kiri -->
+            <g transform="translate(30, 120) rotate(-45) scale(1.5)"><use href="#leaf-dark"/></g>
+            <g transform="translate(80, 140) rotate(-20) scale(1.5)"><use href="#leaf-gold"/></g>
+            <!-- Daun Lebar Kanan -->
+            <g transform="translate(370, 120) rotate(225) scale(1.5)"><use href="#leaf-dark"/></g>
+            <g transform="translate(320, 140) rotate(200) scale(1.5)"><use href="#leaf-gold"/></g>
+            
+            <!-- Karangan Bunga Tengah & Samping -->
+            <g transform="translate(50, 120) scale(1.2)"><use href="#peony"/></g>
+            <g transform="translate(120, 130) scale(0.8)"><use href="#flower-small"/></g>
+            <g transform="translate(180, 110) scale(1)"><use href="#peony"/></g>
+            <g transform="translate(240, 120) scale(1.3)"><use href="#flower-small"/></g>
+            <g transform="translate(300, 130) scale(1)"><use href="#peony"/></g>
+            <g transform="translate(350, 110) scale(0.9)"><use href="#flower-small"/></g>
+
+            <!-- Ronce Melati Menjuntai dari bawah ke atas panggung -->
+            <g transform="translate(100, 20) scale(0.7)"><use href="#ronce-melati"/></g>
+            <g transform="translate(200, 10) scale(0.9)"><use href="#ronce-melati"/></g>
+            <g transform="translate(300, 30) scale(0.6)"><use href="#ronce-melati"/></g>
         </svg>
     </div>
 
@@ -176,7 +259,7 @@
             <h3 style="margin-top:0; color:var(--green); font-family:'Playfair Display', serif; font-size:24px;">Satu Langkah Lagi</h3>
             <p style="font-size:13px; margin-bottom:0; color:var(--green); opacity:0.8;">Masukkan nama untuk menyimpan foto.</p>
             <input type="text" id="photo-name" placeholder="Nama Kamu" required autocomplete="off">
-            <button class="btn-main" style="width:100%;" onclick="submitPhotoAndProceed()">Kirim Foto</button>
+            <button class="btn-main" style="width:100%; border:none;" onclick="submitPhotoAndProceed()">Kirim Foto</button>
         </div>
     </div>
 
@@ -230,7 +313,7 @@
         const expTime = urlParams.get('exp');
 
         if (expTime && Date.now() > parseInt(expTime)) {
-            document.body.innerHTML = "<div style='color:#1A3325; text-align:center; padding:50px; font-family:Playfair Display;'><h2>⛔ Akses Ditolak</h2><p>QR Code ini sudah kadaluarsa.</p></div>";
+            document.body.innerHTML = "<div style='color:#152B1E; text-align:center; padding:50px; font-family:Playfair Display;'><h2>⛔ Akses Ditolak</h2><p>QR Code ini sudah kadaluarsa.</p></div>";
             throw new Error("QR Expired"); 
         }
 
@@ -249,7 +332,7 @@
 
         async function openCamera() {
             showView('view-2');
-            isCommentsLoaded = false; // Reset status load
+            isCommentsLoaded = false;
             let constraints = { video: { facingMode: currentFacingMode, width: { ideal: 1280 }, height: { ideal: 720 } }, audio: false };
             try {
                 video.srcObject = await navigator.mediaDevices.getUserMedia(constraints);
@@ -277,7 +360,6 @@
             if (capturedImages.length > 0) document.getElementById('btn-done').style.display = 'flex';
         }
 
-        // TUGAS BACKGROUND: Tarik data ucapan LEBIH AWAL
         async function prefetchComments() {
             if(!sheetId || isCommentsLoaded) return;
             try {
@@ -302,7 +384,6 @@
             if(capturedImages.length === 0) return;
             if(video.srcObject) video.srcObject.getTracks().forEach(t => t.stop());
             
-            // Diam-diam muat ucapan saat user sibuk pilih foto
             prefetchComments(); 
             
             showView('view-select');
@@ -312,13 +393,10 @@
 
             capturedImages.forEach((imgSrc, index) => {
                 selectedIndices.add(index);
-                
                 const box = document.createElement('div');
                 box.className = 'img-wrap';
-                
                 const img = document.createElement('img');
                 img.src = imgSrc;
-                
                 const check = document.createElement('div');
                 check.className = 'check-icon';
                 check.innerText = '✔';
@@ -344,11 +422,9 @@
 
         function confirmSelection() {
             if(selectedIndices.size === 0) return alert("Pilih minimal 1 foto untuk dikirim!");
-            
             let finalImages = [];
             selectedIndices.forEach(i => finalImages.push(capturedImages[i]));
             capturedImages = finalImages; 
-            
             document.getElementById('modal-name').style.display = 'flex';
         }
 
@@ -372,7 +448,6 @@
         function loadComments() {
             let box = document.getElementById('comments-box');
             if(isCommentsLoaded) {
-                // Instan karena sudah dimuat sebelumnya
                 box.innerHTML = cachedCommentsHTML;
             } else {
                 box.innerHTML = `<div style="text-align:center; opacity:0.6; font-size:12px; margin-top:30px;">Memuat ucapan...</div>`;
@@ -393,18 +468,16 @@
             const btn = document.getElementById('btn-send-comment');
             btn.innerText = "Mengirim..."; btn.disabled = true;
 
-            // Proses kirim di latar belakang tanpa disuruh menunggu (Asynchronous)
             fetch(GAS_WEB_APP_URL, {
                 method: 'POST',
                 body: JSON.stringify({ type: "comment", sheetId: sheetId, userName: name, message: message }),
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' }
             }).catch(e => console.error(e));
 
-            // Efek transisi langsung pindah (bebas lag/lemot)
             setTimeout(() => {
                 showView('view-4');
                 btn.innerText = "Kirim Ucapan"; btn.disabled = false;
-            }, 600);
+            }, 500);
         }
     </script>
 </body>
