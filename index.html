@@ -6,37 +6,37 @@
     <title>Wedding Photobooth & Guestbook</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; font-family: 'Poppins', sans-serif; color: #FFFDD0; background-color: #1a0a02; }
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; font-family: 'Poppins', sans-serif; color: #FFFDD0; background-color: #000000; }
         
-        /* TEMA ADAT JAWA (LAPISAN BACKGROUND) */
-        .jawa-bg { background: radial-gradient(circle at center, #3e2011 0%, #110500 100%); position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -10; transition: opacity 0.5s; pointer-events: none; }
+        /* TEMA ADAT JAWA - Z-Index Diperbaiki */
+        .jawa-bg { background: radial-gradient(circle at center, #3e2011 0%, #0a0300 100%); position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; transition: opacity 0.5s; pointer-events: none; }
         
-        /* 1. Motif Batik Kawung (Seamless) */
-        .batik-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.06; background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='0' cy='0' r='25' fill='none' stroke='%23d4af37' stroke-width='1.5'/%3E%3Ccircle cx='60' cy='0' r='25' fill='none' stroke='%23d4af37' stroke-width='1.5'/%3E%3Ccircle cx='0' cy='60' r='25' fill='none' stroke='%23d4af37' stroke-width='1.5'/%3E%3Ccircle cx='60' cy='60' r='25' fill='none' stroke='%23d4af37' stroke-width='1.5'/%3E%3Ccircle cx='30' cy='30' r='25' fill='none' stroke='%23d4af37' stroke-width='1.5'/%3E%3Cpath d='M 22 30 L 30 22 L 38 30 L 30 38 Z' fill='%23d4af37'/%3E%3C/svg%3E"); }
+        /* 1. Motif Batik Kawung (Opacity Dinaikkan) */
+        .batik-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.15; background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='0' cy='0' r='25' fill='none' stroke='%23d4af37' stroke-width='1.5'/%3E%3Ccircle cx='60' cy='0' r='25' fill='none' stroke='%23d4af37' stroke-width='1.5'/%3E%3Ccircle cx='0' cy='60' r='25' fill='none' stroke='%23d4af37' stroke-width='1.5'/%3E%3Ccircle cx='60' cy='60' r='25' fill='none' stroke='%23d4af37' stroke-width='1.5'/%3E%3Ccircle cx='30' cy='30' r='25' fill='none' stroke='%23d4af37' stroke-width='1.5'/%3E%3Cpath d='M 22 30 L 30 22 L 38 30 L 30 38 Z' fill='%23d4af37'/%3E%3C/svg%3E"); }
         
-        /* 2. Siluet Gunungan Wayang */
-        .gunungan-bg { position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%); width: 90vw; max-width: 450px; opacity: 0.12; }
+        /* 2. Siluet Gunungan Wayang (Opacity Dinaikkan) */
+        .gunungan-bg { position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%); width: 120vw; max-width: 500px; opacity: 0.25; }
         
-        /* 3. Siluet Rumah Joglo */
-        .joglo-bg { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 100vw; max-width: 600px; opacity: 0.25; }
+        /* 3. Siluet Rumah Joglo (Opacity Dinaikkan) */
+        .joglo-bg { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 100vw; max-width: 600px; opacity: 0.45; }
 
-        .view { display: none; width: 100%; height: 100%; flex-direction: column; justify-content: center; align-items: center; position: absolute; top: 0; left: 0; text-align: center; box-sizing: border-box; padding: 20px; animation: fadeIn 0.6s ease-out; z-index: 1; }
+        .view { display: none; width: 100%; height: 100%; flex-direction: column; justify-content: center; align-items: center; position: absolute; top: 0; left: 0; text-align: center; box-sizing: border-box; padding: 20px; animation: fadeIn 0.6s ease-out; z-index: 10; }
         .active-view { display: flex; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
         /* View 1: Landing Page */
-        .title-pre { font-family: 'Playfair Display', serif; font-style: italic; font-size: 22px; color: #D4AF37; margin-bottom: 5px; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); }
-        .title-names { font-family: 'Playfair Display', serif; font-size: 46px; font-weight: bold; margin: 0; text-shadow: 2px 2px 8px rgba(0,0,0,0.8); line-height: 1.1; }
-        .title-date { font-size: 16px; letter-spacing: 4px; margin-top: 15px; margin-bottom: 45px; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); }
-        .btn-gold { background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c); color: #2c1503; border: none; padding: 15px 45px; border-radius: 30px; font-size: 18px; font-weight: bold; font-family: 'Playfair Display', serif; cursor: pointer; box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4); transition: transform 0.2s; text-transform: uppercase; letter-spacing: 1px; }
+        .title-pre { font-family: 'Playfair Display', serif; font-style: italic; font-size: 22px; color: #D4AF37; margin-bottom: 5px; text-shadow: 2px 2px 5px rgba(0,0,0,0.9); }
+        .title-names { font-family: 'Playfair Display', serif; font-size: 46px; font-weight: bold; margin: 0; text-shadow: 3px 3px 10px rgba(0,0,0,0.9); line-height: 1.1; }
+        .title-date { font-size: 16px; letter-spacing: 4px; margin-top: 15px; margin-bottom: 45px; text-shadow: 2px 2px 5px rgba(0,0,0,0.9); }
+        .btn-gold { background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c); color: #2c1503; border: none; padding: 15px 45px; border-radius: 30px; font-size: 18px; font-weight: bold; font-family: 'Playfair Display', serif; cursor: pointer; box-shadow: 0 5px 20px rgba(212, 175, 55, 0.5); transition: transform 0.2s; text-transform: uppercase; letter-spacing: 1px; }
         .btn-gold:active { transform: scale(0.95); }
 
         /* View 2: Camera */
-        #camera-container { width: 100%; height: 100%; background: #000; position: absolute; top: 0; left: 0; z-index: 10; display: none; }
+        #camera-container { width: 100%; height: 100%; background: #000; position: absolute; top: 0; left: 0; z-index: 20; display: none; }
         #camera-feed { width: 100%; height: 100%; object-fit: cover; }
-        .cam-top-bar { position: absolute; top: 30px; left: 0; width: 100%; display: flex; justify-content: center; z-index: 12; }
+        .cam-top-bar { position: absolute; top: 30px; left: 0; width: 100%; display: flex; justify-content: center; z-index: 22; }
         .cam-counter { background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); padding: 8px 18px; border-radius: 20px; font-size: 16px; font-weight: 600; border: 1px solid rgba(212, 175, 55, 0.5); color: #D4AF37; }
-        .cam-bottom-bar { position: absolute; bottom: 40px; left: 0; width: 100%; display: flex; justify-content: space-evenly; align-items: center; z-index: 12; }
+        .cam-bottom-bar { position: absolute; bottom: 40px; left: 0; width: 100%; display: flex; justify-content: space-evenly; align-items: center; z-index: 22; }
         .btn-switch, .btn-done { background: rgba(0,0,0,0.7); border: 1px solid #D4AF37; border-radius: 50%; width: 55px; height: 55px; font-size: 22px; color: #D4AF37; display: flex; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
         .btn-done { display: none; font-weight: bold; background: #D4AF37; color: #2c1503; }
         .btn-shutter { background: transparent; border: 3px solid #D4AF37; border-radius: 50%; width: 75px; height: 75px; position: relative; }
@@ -49,21 +49,21 @@
         .modal-box input::placeholder { color: rgba(255, 253, 208, 0.5); }
         
         /* View 3: Guestbook */
-        .gb-title { font-family: 'Playfair Display', serif; font-size: 32px; color: #D4AF37; margin-bottom: 5px; text-shadow: 1px 1px 4px rgba(0,0,0,0.8); }
-        .gb-subtitle { font-size: 14px; margin-bottom: 25px; color: rgba(255, 253, 208, 0.8); }
-        .gb-input, .gb-textarea { width: 100%; max-width: 340px; padding: 14px; margin-bottom: 15px; border: 1px solid rgba(212, 175, 55, 0.5); border-radius: 8px; font-size: 14px; background: rgba(0, 0, 0, 0.6); color: #FFFDD0; font-family: 'Poppins', sans-serif; box-sizing: border-box; backdrop-filter: blur(5px); outline: none; }
+        .gb-title { font-family: 'Playfair Display', serif; font-size: 32px; color: #D4AF37; margin-bottom: 5px; text-shadow: 2px 2px 6px rgba(0,0,0,0.9); }
+        .gb-subtitle { font-size: 14px; margin-bottom: 25px; color: rgba(255, 253, 208, 0.9); }
+        .gb-input, .gb-textarea { width: 100%; max-width: 340px; padding: 14px; margin-bottom: 15px; border: 1px solid rgba(212, 175, 55, 0.5); border-radius: 8px; font-size: 14px; background: rgba(0, 0, 0, 0.7); color: #FFFDD0; font-family: 'Poppins', sans-serif; box-sizing: border-box; backdrop-filter: blur(5px); outline: none; }
         .gb-input:focus, .gb-textarea:focus { border-color: #D4AF37; }
         .gb-textarea { resize: none; height: 90px; }
         
-        .comments-container { width: 100%; max-width: 340px; height: 220px; background: rgba(0,0,0,0.5); border-radius: 10px; border: 1px solid rgba(212, 175, 55, 0.3); overflow-y: auto; margin-top: 20px; padding: 12px; text-align: left; box-sizing: border-box; backdrop-filter: blur(5px); }
-        .comment-item { background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; margin-bottom: 12px; font-size: 13px; border-left: 3px solid #D4AF37; }
+        .comments-container { width: 100%; max-width: 340px; height: 220px; background: rgba(0,0,0,0.6); border-radius: 10px; border: 1px solid rgba(212, 175, 55, 0.4); overflow-y: auto; margin-top: 20px; padding: 12px; text-align: left; box-sizing: border-box; backdrop-filter: blur(8px); }
+        .comment-item { background: rgba(255,255,255,0.08); padding: 12px; border-radius: 8px; margin-bottom: 12px; font-size: 13px; border-left: 3px solid #D4AF37; }
         .comment-name { font-weight: 600; color: #D4AF37; margin-bottom: 4px; font-size: 14px; }
-        .comment-date { font-size: 11px; opacity: 0.5; display: block; margin-top: 5px; font-style: italic; }
+        .comment-date { font-size: 11px; opacity: 0.6; display: block; margin-top: 5px; font-style: italic; }
 
         /* View 4: Company Profile */
-        .cp-title { font-family: 'Playfair Display', serif; font-size: 42px; color: #D4AF37; margin-bottom: 5px; text-shadow: 2px 2px 8px rgba(0,0,0,0.8); }
+        .cp-title { font-family: 'Playfair Display', serif; font-size: 42px; color: #D4AF37; margin-bottom: 5px; text-shadow: 2px 2px 8px rgba(0,0,0,0.9); }
         .cp-vendor { font-size: 18px; letter-spacing: 3px; margin-bottom: 50px; opacity: 0.9; }
-        .wa-icon { background: linear-gradient(135deg, #25D366, #1da851); width: 65px; height: 65px; border-radius: 50%; display: flex; justify-content: center; align-items: center; text-decoration: none; box-shadow: 0 5px 20px rgba(37,211,102,0.3); margin: 0 auto; transition: transform 0.2s; border: 2px solid rgba(255,255,255,0.2); }
+        .wa-icon { background: linear-gradient(135deg, #25D366, #1da851); width: 65px; height: 65px; border-radius: 50%; display: flex; justify-content: center; align-items: center; text-decoration: none; box-shadow: 0 5px 20px rgba(37,211,102,0.4); margin: 0 auto; transition: transform 0.2s; border: 2px solid rgba(255,255,255,0.2); }
         .wa-icon:active { transform: scale(0.9); }
         .wa-icon svg { width: 38px; height: 38px; fill: white; }
     </style>
@@ -105,7 +105,7 @@
     <div id="camera-container">
         <video id="camera-feed" autoplay playsinline muted></video>
         <canvas id="canvas" style="display: none;"></canvas>
-        <div id="flash-effect" style="position: absolute; top:0; left:0; width:100%; height:100%; background:white; opacity:0; pointer-events:none; z-index:20;"></div>
+        <div id="flash-effect" style="position: absolute; top:0; left:0; width:100%; height:100%; background:white; opacity:0; pointer-events:none; z-index:25;"></div>
         
         <div class="cam-top-bar">
             <div class="cam-counter"><span id="photo-count">0</span> / 18</div>
