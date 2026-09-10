@@ -6,66 +6,81 @@
     <title>Wedding Photobooth & Guestbook</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; font-family: 'Poppins', sans-serif; color: #FFFDD0; background-color: #000000; }
+        :root {
+            --cream: #FDFBF7;
+            --cream-dark: #EFEADD;
+            --green: #1A3325;
+            --gold: #C5A059;
+        }
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; font-family: 'Poppins', sans-serif; color: var(--green); background-color: var(--cream); }
         
-        /* TEMA ADAT JAWA - Z-Index Diperbaiki */
-        .jawa-bg { background: radial-gradient(circle at center, #3e2011 0%, #0a0300 100%); position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; transition: opacity 0.5s; pointer-events: none; }
+        /* TEMA ADAT JAWA - Krem & Hijau Tua */
+        .jawa-bg { background: linear-gradient(180deg, var(--cream) 0%, var(--cream-dark) 100%); position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; transition: opacity 0.5s; pointer-events: none; }
         
-        /* 1. Motif Batik Kawung (Opacity Dinaikkan) */
-        .batik-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.15; background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='0' cy='0' r='25' fill='none' stroke='%23d4af37' stroke-width='1.5'/%3E%3Ccircle cx='60' cy='0' r='25' fill='none' stroke='%23d4af37' stroke-width='1.5'/%3E%3Ccircle cx='0' cy='60' r='25' fill='none' stroke='%23d4af37' stroke-width='1.5'/%3E%3Ccircle cx='60' cy='60' r='25' fill='none' stroke='%23d4af37' stroke-width='1.5'/%3E%3Ccircle cx='30' cy='30' r='25' fill='none' stroke='%23d4af37' stroke-width='1.5'/%3E%3Cpath d='M 22 30 L 30 22 L 38 30 L 30 38 Z' fill='%23d4af37'/%3E%3C/svg%3E"); }
+        /* 1. Motif Batik Kawung */
+        .batik-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.05; background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='0' cy='0' r='25' fill='none' stroke='%231A3325' stroke-width='2'/%3E%3Ccircle cx='60' cy='0' r='25' fill='none' stroke='%231A3325' stroke-width='2'/%3E%3Ccircle cx='0' cy='60' r='25' fill='none' stroke='%231A3325' stroke-width='2'/%3E%3Ccircle cx='60' cy='60' r='25' fill='none' stroke='%231A3325' stroke-width='2'/%3E%3Ccircle cx='30' cy='30' r='25' fill='none' stroke='%231A3325' stroke-width='2'/%3E%3C/svg%3E"); }
         
-        /* 2. Siluet Gunungan Wayang (Opacity Dinaikkan) */
-        .gunungan-bg { position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%); width: 120vw; max-width: 500px; opacity: 0.25; }
+        /* 2. Ornamen Bunga Sudut */
+        .flower-tl { position: absolute; top: -20px; left: -20px; width: 180px; opacity: 0.8; }
+        .flower-br { position: absolute; bottom: -20px; right: -20px; width: 180px; opacity: 0.8; transform: rotate(180deg); }
         
-        /* 3. Siluet Rumah Joglo (Opacity Dinaikkan) */
-        .joglo-bg { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 100vw; max-width: 600px; opacity: 0.45; }
+        /* 3. Siluet Gunungan & Joglo */
+        .gunungan-bg { position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); width: 120vw; max-width: 500px; opacity: 0.06; }
+        .joglo-bg { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 100vw; max-width: 600px; opacity: 0.12; }
 
         .view { display: none; width: 100%; height: 100%; flex-direction: column; justify-content: center; align-items: center; position: absolute; top: 0; left: 0; text-align: center; box-sizing: border-box; padding: 20px; animation: fadeIn 0.6s ease-out; z-index: 10; }
         .active-view { display: flex; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* View 1: Landing Page */
-        .title-pre { font-family: 'Playfair Display', serif; font-style: italic; font-size: 22px; color: #D4AF37; margin-bottom: 5px; text-shadow: 2px 2px 5px rgba(0,0,0,0.9); }
-        .title-names { font-family: 'Playfair Display', serif; font-size: 46px; font-weight: bold; margin: 0; text-shadow: 3px 3px 10px rgba(0,0,0,0.9); line-height: 1.1; }
-        .title-date { font-size: 16px; letter-spacing: 4px; margin-top: 15px; margin-bottom: 45px; text-shadow: 2px 2px 5px rgba(0,0,0,0.9); }
-        .btn-gold { background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c); color: #2c1503; border: none; padding: 15px 45px; border-radius: 30px; font-size: 18px; font-weight: bold; font-family: 'Playfair Display', serif; cursor: pointer; box-shadow: 0 5px 20px rgba(212, 175, 55, 0.5); transition: transform 0.2s; text-transform: uppercase; letter-spacing: 1px; }
-        .btn-gold:active { transform: scale(0.95); }
+        /* Typography & Buttons */
+        .title-pre { font-family: 'Playfair Display', serif; font-style: italic; font-size: 20px; color: var(--gold); margin-bottom: 5px; }
+        .title-names { font-family: 'Playfair Display', serif; font-size: 42px; font-weight: bold; margin: 0; color: var(--green); line-height: 1.2; }
+        .title-date { font-size: 15px; letter-spacing: 4px; margin-top: 15px; margin-bottom: 45px; color: var(--green); font-weight: 600; }
+        
+        .btn-main { background: var(--green); color: var(--cream); border: 1px solid var(--gold); padding: 12px 40px; border-radius: 30px; font-size: 16px; font-weight: 600; font-family: 'Poppins', sans-serif; cursor: pointer; box-shadow: 0 4px 15px rgba(26,51,37,0.3); transition: transform 0.2s; letter-spacing: 1px; }
+        .btn-main:active { transform: scale(0.95); }
 
         /* View 2: Camera */
         #camera-container { width: 100%; height: 100%; background: #000; position: absolute; top: 0; left: 0; z-index: 20; display: none; }
         #camera-feed { width: 100%; height: 100%; object-fit: cover; }
         .cam-top-bar { position: absolute; top: 30px; left: 0; width: 100%; display: flex; justify-content: center; z-index: 22; }
-        .cam-counter { background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); padding: 8px 18px; border-radius: 20px; font-size: 16px; font-weight: 600; border: 1px solid rgba(212, 175, 55, 0.5); color: #D4AF37; }
+        .cam-counter { background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); padding: 8px 18px; border-radius: 20px; font-size: 16px; font-weight: 600; border: 1px solid var(--gold); color: var(--cream); }
         .cam-bottom-bar { position: absolute; bottom: 40px; left: 0; width: 100%; display: flex; justify-content: space-evenly; align-items: center; z-index: 22; }
-        .btn-switch, .btn-done { background: rgba(0,0,0,0.7); border: 1px solid #D4AF37; border-radius: 50%; width: 55px; height: 55px; font-size: 22px; color: #D4AF37; display: flex; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
-        .btn-done { display: none; font-weight: bold; background: #D4AF37; color: #2c1503; }
-        .btn-shutter { background: transparent; border: 3px solid #D4AF37; border-radius: 50%; width: 75px; height: 75px; position: relative; }
-        .btn-shutter::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: linear-gradient(135deg, #fcf6ba, #b38728); width: 60px; height: 60px; border-radius: 50%; }
+        .btn-switch, .btn-done { background: rgba(255,255,255,0.2); border: 1px solid var(--cream); border-radius: 50%; width: 55px; height: 55px; font-size: 22px; color: var(--cream); display: flex; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
+        .btn-done { display: none; background: var(--green); color: var(--cream); border-color: var(--gold); }
+        .btn-shutter { background: transparent; border: 3px solid var(--cream); border-radius: 50%; width: 75px; height: 75px; position: relative; }
+        .btn-shutter::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--cream); width: 60px; height: 60px; border-radius: 50%; }
         
-        .modal { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 30; justify-content: center; align-items: center; flex-direction: column; backdrop-filter: blur(5px); }
-        .modal-box { background: linear-gradient(135deg, #2c1503 0%, #110500 100%); padding: 30px 25px; border-radius: 15px; width: 85%; max-width: 320px; border: 1px solid #D4AF37; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
-        .modal-box input { width: 100%; padding: 12px; margin: 20px 0; border: 1px solid rgba(212, 175, 55, 0.5); border-radius: 8px; font-size: 16px; text-align: center; font-family: 'Poppins', sans-serif; background: rgba(255,255,255,0.1); color: #FFFDD0; box-sizing: border-box; outline: none; }
-        .modal-box input:focus { border-color: #D4AF37; background: rgba(255,255,255,0.2); }
-        .modal-box input::placeholder { color: rgba(255, 253, 208, 0.5); }
+        /* Modal Global */
+        .modal { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 40; justify-content: center; align-items: center; flex-direction: column; backdrop-filter: blur(3px); }
+        .modal-box { background: var(--cream); padding: 30px 25px; border-radius: 15px; width: 85%; max-width: 320px; border: 2px solid var(--green); text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .modal-box input { width: 100%; padding: 12px; margin: 20px 0; border: 1px solid var(--green); border-radius: 8px; font-size: 16px; text-align: center; font-family: 'Poppins', sans-serif; background: transparent; color: var(--green); box-sizing: border-box; outline: none; }
         
+        /* View 2.5: Gallery Selection */
+        .gallery-grid { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; max-height: 55vh; overflow-y: auto; margin-bottom: 20px; padding: 10px 0; }
+        .img-wrap { position: relative; width: 100px; height: 140px; cursor: pointer; }
+        .img-wrap img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; border: 3px solid var(--green); transition: 0.2s; }
+        .check-icon { position: absolute; top: 5px; right: 5px; background: var(--green); color: var(--cream); border-radius: 50%; width: 22px; height: 22px; display: flex; justify-content: center; align-items: center; font-size: 12px; font-weight: bold; border: 1px solid var(--gold); }
+
         /* View 3: Guestbook */
-        .gb-title { font-family: 'Playfair Display', serif; font-size: 32px; color: #D4AF37; margin-bottom: 5px; text-shadow: 2px 2px 6px rgba(0,0,0,0.9); }
-        .gb-subtitle { font-size: 14px; margin-bottom: 25px; color: rgba(255, 253, 208, 0.9); }
-        .gb-input, .gb-textarea { width: 100%; max-width: 340px; padding: 14px; margin-bottom: 15px; border: 1px solid rgba(212, 175, 55, 0.5); border-radius: 8px; font-size: 14px; background: rgba(0, 0, 0, 0.7); color: #FFFDD0; font-family: 'Poppins', sans-serif; box-sizing: border-box; backdrop-filter: blur(5px); outline: none; }
-        .gb-input:focus, .gb-textarea:focus { border-color: #D4AF37; }
+        .gb-title { font-family: 'Playfair Display', serif; font-size: 32px; color: var(--green); margin-bottom: 5px; }
+        .gb-input, .gb-textarea { width: 100%; max-width: 340px; padding: 14px; margin-bottom: 15px; border: 1px solid var(--green); border-radius: 8px; font-size: 14px; background: rgba(255,255,255,0.5); color: var(--green); font-family: 'Poppins', sans-serif; box-sizing: border-box; backdrop-filter: blur(5px); outline: none; }
         .gb-textarea { resize: none; height: 90px; }
-        
-        .comments-container { width: 100%; max-width: 340px; height: 220px; background: rgba(0,0,0,0.6); border-radius: 10px; border: 1px solid rgba(212, 175, 55, 0.4); overflow-y: auto; margin-top: 20px; padding: 12px; text-align: left; box-sizing: border-box; backdrop-filter: blur(8px); }
-        .comment-item { background: rgba(255,255,255,0.08); padding: 12px; border-radius: 8px; margin-bottom: 12px; font-size: 13px; border-left: 3px solid #D4AF37; }
-        .comment-name { font-weight: 600; color: #D4AF37; margin-bottom: 4px; font-size: 14px; }
+        .comments-container { width: 100%; max-width: 340px; height: 220px; background: rgba(255,255,255,0.4); border-radius: 10px; border: 1px solid rgba(26,51,37,0.2); overflow-y: auto; margin-top: 15px; padding: 12px; text-align: left; box-sizing: border-box; }
+        .comment-item { background: rgba(255,255,255,0.6); padding: 12px; border-radius: 8px; margin-bottom: 12px; font-size: 13px; border-left: 3px solid var(--gold); }
+        .comment-name { font-weight: 600; color: var(--green); margin-bottom: 4px; font-size: 14px; }
         .comment-date { font-size: 11px; opacity: 0.6; display: block; margin-top: 5px; font-style: italic; }
 
         /* View 4: Company Profile */
-        .cp-title { font-family: 'Playfair Display', serif; font-size: 42px; color: #D4AF37; margin-bottom: 5px; text-shadow: 2px 2px 8px rgba(0,0,0,0.9); }
-        .cp-vendor { font-size: 18px; letter-spacing: 3px; margin-bottom: 50px; opacity: 0.9; }
-        .wa-icon { background: linear-gradient(135deg, #25D366, #1da851); width: 65px; height: 65px; border-radius: 50%; display: flex; justify-content: center; align-items: center; text-decoration: none; box-shadow: 0 5px 20px rgba(37,211,102,0.4); margin: 0 auto; transition: transform 0.2s; border: 2px solid rgba(255,255,255,0.2); }
+        .cp-quote { font-family: 'Playfair Display', serif; font-style: italic; font-size: 20px; color: var(--gold); margin-bottom: 10px; }
+        .cp-title { font-family: 'Playfair Display', serif; font-size: 42px; color: var(--green); margin-bottom: 5px; font-weight: bold; }
+        .cp-vendor { font-size: 16px; letter-spacing: 3px; margin-bottom: 20px; opacity: 0.8; }
+        
+        .footer-wa { position: absolute; bottom: 25px; left: 0; width: 100%; display: flex; flex-direction: column; align-items: center; }
+        .footer-text { font-size: 12px; opacity: 0.6; margin-bottom: 8px; }
+        .wa-icon { background: #25D366; width: 45px; height: 45px; border-radius: 50%; display: flex; justify-content: center; align-items: center; text-decoration: none; box-shadow: 0 4px 10px rgba(37,211,102,0.3); border: 2px solid white; transition: transform 0.2s; }
         .wa-icon:active { transform: scale(0.9); }
-        .wa-icon svg { width: 38px; height: 38px; fill: white; }
+        .wa-icon svg { width: 24px; height: 24px; fill: white; }
     </style>
 </head>
 <body>
@@ -74,22 +89,36 @@
     <div class="jawa-bg" id="bg-jawa">
         <div class="batik-overlay"></div>
         
+        <!-- Bunga Sudut Kiri Atas & Kanan Bawah -->
+        <svg class="flower-tl" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,0 L100,0 C80,30 40,50 0,60 Z" fill="#1A3325" opacity="0.1"/>
+            <path d="M10,10 C30,5 50,30 20,40 C5,50 -5,25 10,10 Z" fill="#1A3325" opacity="0.8"/>
+            <path d="M30,15 C55,10 65,40 40,50 C20,60 10,35 30,15 Z" fill="#C5A059" opacity="0.9"/>
+            <circle cx="25" cy="25" r="4" fill="#FDFBF7"/>
+        </svg>
+        <svg class="flower-br" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,0 L100,0 C80,30 40,50 0,60 Z" fill="#1A3325" opacity="0.1"/>
+            <path d="M10,10 C30,5 50,30 20,40 C5,50 -5,25 10,10 Z" fill="#1A3325" opacity="0.8"/>
+            <path d="M30,15 C55,10 65,40 40,50 C20,60 10,35 30,15 Z" fill="#C5A059" opacity="0.9"/>
+            <circle cx="25" cy="25" r="4" fill="#FDFBF7"/>
+        </svg>
+
         <!-- Siluet Gunungan -->
         <svg class="gunungan-bg" viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg">
-            <path d="M100 10 C140 80 190 180 190 280 C190 290 180 300 100 300 C20 300 10 290 10 280 C10 180 60 80 100 10 Z" fill="none" stroke="#D4AF37" stroke-width="2"/>
-            <path d="M100 30 C130 90 170 180 170 270 C170 280 160 285 100 285 C40 285 30 280 30 270 C30 180 70 90 100 30 Z" fill="none" stroke="#D4AF37" stroke-width="1.5" stroke-dasharray="6,4"/>
-            <path d="M100 285 L100 50 M60 270 C80 200 120 200 140 270 M70 200 C85 140 115 140 130 200" stroke="#D4AF37" fill="none" stroke-width="1.5"/>
+            <path d="M100 10 C140 80 190 180 190 280 C190 290 180 300 100 300 C20 300 10 290 10 280 C10 180 60 80 100 10 Z" fill="none" stroke="#1A3325" stroke-width="2"/>
+            <path d="M100 30 C130 90 170 180 170 270 C170 280 160 285 100 285 C40 285 30 280 30 270 C30 180 70 90 100 30 Z" fill="none" stroke="#1A3325" stroke-width="1.5" stroke-dasharray="6,4"/>
+            <path d="M100 285 L100 50 M60 270 C80 200 120 200 140 270 M70 200 C85 140 115 140 130 200" stroke="#1A3325" fill="none" stroke-width="1.5"/>
         </svg>
 
         <!-- Siluet Rumah Joglo -->
         <svg class="joglo-bg" viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg">
-            <path d="M120 15 L180 15 L200 45 L100 45 Z" fill="#D4AF37"/>
-            <path d="M95 50 L205 50 L260 80 L40 80 Z" fill="#D4AF37"/>
-            <rect x="110" y="80" width="6" height="20" fill="#D4AF37"/>
-            <rect x="184" y="80" width="6" height="20" fill="#D4AF37"/>
-            <rect x="60" y="80" width="4" height="20" fill="#D4AF37"/>
-            <rect x="236" y="80" width="4" height="20" fill="#D4AF37"/>
-            <path d="M10 100 L290 100" stroke="#D4AF37" stroke-width="4"/>
+            <path d="M120 15 L180 15 L200 45 L100 45 Z" fill="#1A3325"/>
+            <path d="M95 50 L205 50 L260 80 L40 80 Z" fill="#1A3325"/>
+            <rect x="110" y="80" width="6" height="20" fill="#1A3325"/>
+            <rect x="184" y="80" width="6" height="20" fill="#1A3325"/>
+            <rect x="60" y="80" width="4" height="20" fill="#1A3325"/>
+            <rect x="236" y="80" width="4" height="20" fill="#1A3325"/>
+            <path d="M10 100 L290 100" stroke="#1A3325" stroke-width="4"/>
         </svg>
     </div>
 
@@ -98,7 +127,7 @@
         <div class="title-pre">The Wedding Of</div>
         <h1 class="title-names">Maghfiroh<br>& Eko</h1>
         <div class="title-date">12.09.2026</div>
-        <button class="btn-gold" onclick="openCamera()">Take Photo</button>
+        <button class="btn-main" onclick="openCamera()">Ambil Foto</button>
     </div>
 
     <!-- VIEW 2: CAMERA -->
@@ -113,26 +142,35 @@
         <div class="cam-bottom-bar">
             <button class="btn-switch" onclick="switchCamera()">🔄</button>
             <button class="btn-shutter" onclick="takePhoto()"></button>
-            <button class="btn-done" id="btn-done" onclick="showNameModal()">✔</button>
+            <button class="btn-done" id="btn-done" onclick="openGallerySelection()">✔</button>
         </div>
+    </div>
 
-        <div class="modal" id="modal-name">
-            <div class="modal-box">
-                <h3 style="margin-top:0; color:#D4AF37; font-family:'Playfair Display', serif; font-size:24px;">Selesai Berfoto</h3>
-                <p style="font-size:13px; margin-bottom:0; color:rgba(255,253,208,0.7);">Masukkan nama untuk format foto.</p>
-                <input type="text" id="photo-name" placeholder="Nama Kamu" required autocomplete="off">
-                <button class="btn-gold" style="width:100%; padding:12px; font-size:16px;" onclick="submitPhotoAndProceed()">Kirim & Lanjut</button>
-            </div>
+    <!-- VIEW 2.5: GALLERY SELECTION -->
+    <div id="view-select" class="view">
+        <div class="gb-title">Pilih Foto</div>
+        <div style="font-size:13px; opacity:0.8; margin-bottom:15px;">Ketuk foto yang tidak ingin dikirim</div>
+        <div class="gallery-grid" id="gallery-container"></div>
+        <button class="btn-main" style="width:100%; max-width:300px;" onclick="confirmSelection()">Konfirmasi Pilihan</button>
+    </div>
+
+    <!-- MODAL NAMA -->
+    <div class="modal" id="modal-name">
+        <div class="modal-box">
+            <h3 style="margin-top:0; color:var(--green); font-family:'Playfair Display', serif; font-size:24px;">Satu Langkah Lagi</h3>
+            <p style="font-size:13px; margin-bottom:0; color:var(--green); opacity:0.8;">Masukkan nama untuk menyimpan foto.</p>
+            <input type="text" id="photo-name" placeholder="Nama Kamu" required autocomplete="off">
+            <button class="btn-main" style="width:100%;" onclick="submitPhotoAndProceed()">Kirim Foto</button>
         </div>
     </div>
 
     <!-- VIEW 3: GUESTBOOK -->
     <div id="view-3" class="view">
         <div class="gb-title">Ucapkan Sesuatu</div>
-        <div class="gb-subtitle">Berikan Ucapan & Doa Restu</div>
+        <div style="font-size:13px; opacity:0.8; margin-bottom:20px;">Berikan Ucapan & Doa Restu</div>
         <input type="text" id="gb-name" class="gb-input" placeholder="Nama Anda" readonly>
         <textarea id="gb-message" class="gb-textarea" placeholder="Tulis doa dan ucapan disini..." required></textarea>
-        <button class="btn-gold" id="btn-send-comment" style="width:100%; max-width:340px; padding:12px; font-size:16px;" onclick="sendComment()">Kirim Ucapan</button>
+        <button class="btn-main" id="btn-send-comment" style="width:100%; max-width:340px;" onclick="sendComment()">Kirim Ucapan</button>
         
         <div class="comments-container" id="comments-box">
             <div style="text-align:center; opacity:0.6; font-size:12px; margin-top:30px;">Memuat ucapan...</div>
@@ -141,12 +179,18 @@
 
     <!-- VIEW 4: COMPANY PROFILE -->
     <div id="view-4" class="view">
+        <div class="cp-quote">Here Begins Our Always</div>
         <div class="cp-title">Terima Kasih</div>
         <div class="cp-vendor">By Artea</div>
-        <!-- GANTI NOMOR WA DI BAWAH INI -->
-        <a href="https://wa.me/6287852738914" target="_blank" class="wa-icon">
-            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.82 9.82 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
-        </a>
+        
+        <!-- FOOTER WA KECIL DI TENGAH BAWAH -->
+        <div class="footer-wa">
+            <div class="footer-text">Hubungi Vendor</div>
+            <!-- GANTI NOMOR WA DI BAWAH INI -->
+            <a href="https://wa.me/6281945507305" target="_blank" class="wa-icon">
+                <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.82 9.82 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+            </a>
+        </div>
     </div>
 
     <script>
@@ -158,6 +202,7 @@
         let ctx = canvas.getContext('2d');
         let currentFacingMode = 'user';
         let capturedImages = [];
+        let selectedIndices = new Set();
         const MAX_PHOTOS = 18;
 
         const urlParams = new URLSearchParams(window.location.search);
@@ -166,7 +211,7 @@
         const expTime = urlParams.get('exp');
 
         if (expTime && Date.now() > parseInt(expTime)) {
-            document.body.innerHTML = "<div style='color:#D4AF37; text-align:center; padding:50px; font-family:Playfair Display;'><h2>⛔ Akses Ditolak</h2><p>QR Code ini sudah kadaluarsa.</p></div>";
+            document.body.innerHTML = "<div style='color:#1A3325; text-align:center; padding:50px; font-family:Playfair Display;'><h2>⛔ Akses Ditolak</h2><p>QR Code ini sudah kadaluarsa.</p></div>";
             throw new Error("QR Expired"); 
         }
 
@@ -212,7 +257,57 @@
             if (capturedImages.length > 0) document.getElementById('btn-done').style.display = 'flex';
         }
 
-        function showNameModal() {
+        // FITUR BARU: BUKA GALERI SELEKSI
+        function openGallerySelection() {
+            if(capturedImages.length === 0) return;
+            if(video.srcObject) video.srcObject.getTracks().forEach(t => t.stop()); // Matikan kamera agar ringan
+            
+            showView('view-select');
+            const gallery = document.getElementById('gallery-container');
+            gallery.innerHTML = '';
+            selectedIndices.clear();
+
+            capturedImages.forEach((imgSrc, index) => {
+                selectedIndices.add(index); // Default semua terpilih
+                
+                const box = document.createElement('div');
+                box.className = 'img-wrap';
+                
+                const img = document.createElement('img');
+                img.src = imgSrc;
+                
+                const check = document.createElement('div');
+                check.className = 'check-icon';
+                check.innerText = '✔';
+                
+                box.onclick = () => {
+                    if(selectedIndices.has(index)) {
+                        selectedIndices.delete(index);
+                        img.style.borderColor = 'transparent';
+                        img.style.opacity = '0.5';
+                        check.style.display = 'none';
+                    } else {
+                        selectedIndices.add(index);
+                        img.style.borderColor = 'var(--green)';
+                        img.style.opacity = '1';
+                        check.style.display = 'flex';
+                    }
+                };
+                
+                box.appendChild(img);
+                box.appendChild(check);
+                gallery.appendChild(box);
+            });
+        }
+
+        function confirmSelection() {
+            if(selectedIndices.size === 0) return alert("Pilih minimal 1 foto untuk dikirim!");
+            
+            // Filter foto hanya yang dicentang
+            let finalImages = [];
+            selectedIndices.forEach(i => finalImages.push(capturedImages[i]));
+            capturedImages = finalImages; 
+            
             document.getElementById('modal-name').style.display = 'flex';
         }
 
@@ -221,15 +316,15 @@
             if(!userName) return alert("Isi nama dulu ya!");
 
             document.getElementById('gb-name').value = userName;
+            document.getElementById('modal-name').style.display = 'none';
             
+            // Upload Background Gaib
             fetch(GAS_WEB_APP_URL, {
                 method: 'POST',
                 body: JSON.stringify({ type: "photo", folderId: folderId, userName: userName, images: capturedImages }),
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' }
             }).catch(e => console.error("Upload foto error", e));
 
-            if(video.srcObject) video.srcObject.getTracks().forEach(t => t.stop());
-            document.getElementById('modal-name').style.display = 'none';
             showView('view-3');
             loadComments();
         }
@@ -244,7 +339,7 @@
                 
                 if(json.data && json.data.length > 0) {
                     json.data.reverse().forEach(c => {
-                        box.innerHTML += `<div class="comment-item"><div class="comment-name">${c.name}</div><div style="color:rgba(255,253,208,0.9);">${c.message}</div><span class="comment-date">${new Date(c.timestamp).toLocaleDateString('id-ID')}</span></div>`;
+                        box.innerHTML += `<div class="comment-item"><div class="comment-name">${c.name}</div><div style="color:var(--green);">${c.message}</div><span class="comment-date">${new Date(c.timestamp).toLocaleDateString('id-ID')}</span></div>`;
                     });
                 } else {
                     box.innerHTML = `<div style="text-align:center; opacity:0.6; font-size:12px; margin-top:30px;">Belum ada ucapan. Jadilah yang pertama!</div>`;
