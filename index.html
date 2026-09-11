@@ -21,25 +21,30 @@
         .layer-batik { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 0 C75 0 100 25 100 50 C100 75 75 100 50 100 C25 100 0 75 0 50 C0 25 25 0 50 0 Z M50 15 C30 15 15 30 15 50 C15 70 30 85 50 85 C70 85 85 70 85 50 C85 30 70 15 50 15 Z' fill='%23C5A059'/%3E%3C/svg%3E"); }
         
         /* =========================================================================================
-           AREA LINK GAMBAR MENTAHAN (JPG BACKGROUND PUTIH)
-           Ganti teks di dalam url('...') dengan link dari postimages.org
+           KODE BACKGROUND SUDAH DIPISAH AGAR TERBACA DI HP
            ========================================================================================= */
             
-        /* 2. GUNUNGAN WAYANG (Di tengah, memudar elegan) */
+        /* 2. GUNUNGAN WAYANG */
         .layer-gunungan { 
             position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%); 
             width: 150%; height: 80%; 
-            background: url('https://i.postimg.cc/VNxy4JN2/Download-Gunungan-Puppet-in-Vintage-Style-for-free.jpg') center center / contain no-repeat; 
-            opacity: 0.15; z-index: 2; 
+            background-image: url('https://i.postimg.cc/VNxy4JN2/Download-Gunungan-Puppet-in-Vintage-Style-for-free.jpg');
+            background-position: center center;
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.25; z-index: 2; /* Opacity dinaikkan sedikit biar jelas */
             mix-blend-mode: multiply; filter: grayscale(20%) contrast(1.2);
         }
             
-        /* 3. RUMAH JOGLO (Di bawah) */
+        /* 3. RUMAH JOGLO */
         .layer-joglo { 
             position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); 
             width: 100%; height: 40%; 
-            background: url('https://i.postimg.cc/V68Gdn6W/Download-Rumah-Joglo-aka-Indonesian-Traditional-House-for-free.jpg') bottom center / contain no-repeat; 
-            opacity: 0.35; z-index: 3; 
+            background-image: url('https://i.postimg.cc/V68Gdn6W/Download-Rumah-Joglo-aka-Indonesian-Traditional-House-for-free.jpg');
+            background-position: bottom center;
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.45; z-index: 3; /* Opacity dinaikkan sedikit */
             mix-blend-mode: multiply;
         }
             
@@ -47,25 +52,34 @@
         .layer-bunga-kanan-atas { 
             position: absolute; top: -20px; right: -20px; 
             width: 50%; height: 40%; 
-            background: url('https://i.postimg.cc/0Qnfj4h2/3247146.jpg') top right / contain no-repeat; 
-            z-index: 4; opacity: 0.9; mix-blend-mode: multiply; 
+            background-image: url('https://i.postimg.cc/0Qnfj4h2/3247146.jpg');
+            background-position: top right;
+            background-size: contain;
+            background-repeat: no-repeat;
+            z-index: 4; opacity: 0.95; mix-blend-mode: multiply; 
         }
             
-        /* 5. BUNGA POJOK KIRI ATAS (Gambar dibalik horizontal agar tidak kaku) */
+        /* 5. BUNGA POJOK KIRI ATAS */
         .layer-bunga-kiri-atas { 
             position: absolute; top: -20px; left: -20px; 
             width: 50%; height: 40%; 
-            background: url('https://i.postimg.cc/0Qnfj4h2/3247146.jpg') top right / contain no-repeat; 
-            z-index: 4; opacity: 0.9; mix-blend-mode: multiply; 
-            transform: scaleX(-1); /* Membalik gambar */
+            background-image: url('https://i.postimg.cc/0Qnfj4h2/3247146.jpg');
+            background-position: top right;
+            background-size: contain;
+            background-repeat: no-repeat;
+            z-index: 4; opacity: 0.95; mix-blend-mode: multiply; 
+            transform: scaleX(-1);
         }
 
-        /* 6. BUNGA POJOK KIRI BAWAH (Gambar diputar agar pas di bawah) */
+        /* 6. BUNGA POJOK KIRI BAWAH */
         .layer-bunga-kiri-bawah { 
             position: absolute; bottom: -20px; left: -20px; 
             width: 50%; height: 40%; 
-            background: url('https://i.postimg.cc/T3bJg1B7/59397f11-663f-4407-b8b5-2a65eb9e4dcc.jpg') top right / contain no-repeat; 
-            z-index: 5; opacity: 0.9; mix-blend-mode: multiply; 
+            background-image: url('https://i.postimg.cc/T3bJg1B7/59397f11-663f-4407-b8b5-2a65eb9e4dcc.jpg');
+            background-position: top right;
+            background-size: contain;
+            background-repeat: no-repeat;
+            z-index: 5; opacity: 0.95; mix-blend-mode: multiply; 
             transform: scaleY(-1) scaleX(-1); 
         }
 
@@ -73,8 +87,11 @@
         .layer-bunga-kanan-bawah { 
             position: absolute; bottom: -20px; right: -20px; 
             width: 50%; height: 40%; 
-            background: url('https://i.postimg.cc/T3bJg1B7/59397f11-663f-4407-b8b5-2a65eb9e4dcc.jpg') top right / contain no-repeat; 
-            z-index: 5; opacity: 0.9; mix-blend-mode: multiply; 
+            background-image: url('https://i.postimg.cc/T3bJg1B7/59397f11-663f-4407-b8b5-2a65eb9e4dcc.jpg');
+            background-position: top right;
+            background-size: contain;
+            background-repeat: no-repeat;
+            z-index: 5; opacity: 0.95; mix-blend-mode: multiply; 
             transform: scaleY(-1); 
         }
             
@@ -84,7 +101,6 @@
         .active-view { display: flex; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* TEKS & SHADOW (Dibuat lebih tebal bayangannya agar tulisan tidak tenggelam oleh lukisan) */
         .title-pre { font-family: 'Playfair Display', serif; font-style: italic; font-size: 20px; color: var(--gold); margin-bottom: 5px; z-index: 15; position: relative; text-shadow: 0 0 10px var(--cream), 0 0 20px var(--cream); }
         .title-names { font-family: 'Playfair Display', serif; font-size: 44px; font-weight: bold; margin: 0; color: var(--red); line-height: 1.1; z-index: 15; position: relative; text-shadow: 0 0 15px var(--cream), 0 0 30px var(--cream); }
         .title-date { font-size: 15px; letter-spacing: 5px; margin-top: 15px; margin-bottom: 45px; color: var(--green); font-weight: 600; z-index: 15; position: relative; text-shadow: 0 0 10px var(--cream); }
@@ -129,20 +145,17 @@
 </head>
 <body>
 
-    <!-- BACKGROUND KHAS JAWA (Sudah diatur layout bunganya) -->
     <div class="jawa-bg" id="bg-jawa">
         <div class="layer-batik"></div>
         <div class="layer-gunungan"></div>
         <div class="layer-joglo"></div>
         
-        <!-- Bunga di 4 Sudut Membentuk Bingkai -->
         <div class="layer-bunga-kiri-atas"></div>
         <div class="layer-bunga-kanan-atas"></div>
         <div class="layer-bunga-kiri-bawah"></div>
         <div class="layer-bunga-kanan-bawah"></div>
     </div>
 
-    <!-- VIEW 1: LANDING PAGE -->
     <div id="view-1" class="view active-view">
         <div class="title-pre">The Wedding Of</div>
         <h1 class="title-names">Maghfiroh<br>& Eko</h1>
@@ -150,7 +163,6 @@
         <button class="btn-main" onclick="openCamera()">Take Photo</button>
     </div>
 
-    <!-- VIEW 2: CAMERA -->
     <div id="camera-container">
         <video id="camera-feed" autoplay playsinline muted></video>
         <canvas id="canvas" style="display: none;"></canvas>
@@ -163,7 +175,6 @@
         </div>
     </div>
 
-    <!-- VIEW 2.5: GALLERY SELECTION -->
     <div id="view-select" class="view">
         <div class="gb-title">Pilih Foto</div>
         <div style="font-size:13px; opacity:0.9; margin-bottom:20px; z-index:15; font-weight:600; text-shadow:0 0 10px var(--cream);">Ketuk foto yang tidak ingin dikirim</div>
@@ -171,7 +182,6 @@
         <button class="btn-main" style="width:100%; max-width:300px;" onclick="confirmSelection()">Konfirmasi Pilihan</button>
     </div>
 
-    <!-- MODAL NAMA -->
     <div class="modal" id="modal-name">
         <div class="modal-box">
             <h3 style="margin-top:0; color:var(--red); font-family:'Playfair Display', serif; font-size:24px;">Satu Langkah Lagi</h3>
@@ -181,7 +191,6 @@
         </div>
     </div>
 
-    <!-- VIEW 3: GUESTBOOK -->
     <div id="view-3" class="view">
         <div class="gb-title">Ucapkan Sesuatu</div>
         <div style="font-size:13px; opacity:0.9; margin-bottom:20px; z-index:15; font-weight:600; text-shadow:0 0 10px var(--cream);">Berikan Ucapan & Doa Restu</div>
@@ -193,14 +202,12 @@
         </div>
     </div>
 
-    <!-- VIEW 4: COMPANY PROFILE -->
     <div id="view-4" class="view">
         <div style="font-family:'Playfair Display',serif; font-style:italic; font-size:22px; color:var(--gold); margin-bottom:10px; z-index:15; text-shadow:0 0 10px var(--cream);">Here Begins Our Always</div>
         <div style="font-family:'Playfair Display',serif; font-size:46px; color:var(--red); margin-bottom:5px; font-weight:bold; z-index:15; text-shadow:0 0 15px var(--cream);">Terima Kasih</div>
         <div style="font-size:16px; letter-spacing:4px; margin-bottom:20px; opacity:0.9; font-weight:600; z-index:15; text-shadow:0 0 10px var(--cream);">By Artea</div>
         <div class="footer-wa">
             <div style="font-size:13px; opacity:0.8; margin-bottom:8px; font-weight:bold; text-shadow:0 0 10px var(--cream);">Hubungi Vendor</div>
-            <!-- GANTI NOMOR WA DI BAWAH INI -->
             <a href="https://wa.me/6281945507305" target="_blank" class="wa-icon">
                 <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.82 9.82 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
             </a>
@@ -208,7 +215,6 @@
     </div>
 
     <script>
-        // PASTIKAN LINK GAS KAMU DIMASUKKAN DI SINI YA
         const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx-Jj1n32O9FPnboHIP0Mw5KJQuTjVkqGlGA0CCOCscNjqn7-Gmx5sJUk7h48kXpGMU/exec";
         
         let video = document.getElementById('camera-feed');
